@@ -1,0 +1,9 @@
+const ActionType = {
+    REGISTER_USER: 'REGISTER_USER',
+    REGISTER_COOKER: 'REGISTER_COOKER',
+    ERROR_LOGIN: 'ERROR_LOGIN',
+    HOME_COMMENTS: 'HOME_COMMENTS',
+    HOME_MENUS: 'HOME_MENUS'
+};
+
+export default ActionType;
