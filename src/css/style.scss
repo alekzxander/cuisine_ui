@@ -1,6 +1,7 @@
 $primary : #FE2B00;
 $text : #3D3D3D;
 $black : #060606;
+$dark : #D0D0D3;
 $middleMarge : 40px;
 $bigMarge : 140px;
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
@@ -14,6 +15,7 @@ body {
     h3 {
         text-transform: uppercase;
         font-weight: 400;
+
     }
   }
   .picto-work {
@@ -116,6 +118,7 @@ body {
       width: 70%;
       margin: 0 auto;
       text-align: center;
+      height: 250px;
   
       h5{
         color : $primary;
@@ -225,4 +228,121 @@ body {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+/////// FROM CONNEXION //////
+#connect {
+  padding: 30px;
+  .title-card {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .login {
+    border: 2px solid $primary;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .col-lg-2 {
+    position: relative;
+    .separator {
+      height : 350px;
+      width: 1px;
+      background:$dark;
+      position: absolute;
+      left: 50%;
+      top: 10%;
+    }
+  }
+  
+ 
+}
+.btn-submit {
+  background: $primary;
+  padding: 10px;
+  border: none;
+  border-radius :10px;
+  color: white;
+  text-align: center;
+}
+.modal-title {
+    h5{
+      margin: 0 auto;
+    }
+}
+.modal-body {
+  p {
+    margin: 0;
+  }
+}
+#chef-page {
+  padding: $bigMarge;
+  .card-cooker {
+    position: relative;
+    height: 500px;
+    background: white;
+    padding : 110px 20px 20px 20px;
+    .img-cooker {
+      position:absolute;
+      border-radius: 160px;
+      height: 200px;
+      top: -19%;
+      left:22%;
+    }
+    h5 {
+      text-align :center;
+      color : $primary;
+    }
+    .type {
+      color : $primary;
+    }
+  
+}
+.menu-card{
+  margin-top: 100px;
+ }
+.img-menu {
+  height: 200px;
+  top : -40%;
+  
+ } 
+ .comment-content {
+  padding: 20px;
+  border: 1px solid $primary;
+  border-radius: 10px;
+  margin-top: 40px;
+  h6 {
+    color : $primary;
+  }
+  .comment {
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+}
+.btn-more {
+  border: none;
+  color: orange;
+  background: none;
+  padding-top: 30px;
+  &:focus {
+    outline: none;
+  }
+}
+}
+#menu-selected {
+  padding-top: $middleMarge;
+  .menu {
+    margin-top: $middleMarge;
+    .detail {
+      width: 60%;
+      height : 400px;
+      margin: 0 auto;
+      background: white;
+    }
+  }
+  .reservation {
+    margin-top: $middleMarge;
+  }
+ 
 }

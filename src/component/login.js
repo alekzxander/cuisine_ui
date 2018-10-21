@@ -2,7 +2,10 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login } from '../action/indexAction';
+import { login, toggleModal } from '../action/indexAction';
+import { withRouter } from "react-router";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { HashLink as Link } from 'react-router-hash-link';
 
 const validate = values => {
     const errors = {}
@@ -34,7 +37,7 @@ const renderField = ({
     meta: { touched, error, warning }
   }) => (
         <div>
-            <label >{label}</label>
+            {/* <label >{label}</label> */}
             <div>
                 <input {...input} className="form-control" placeholder={label} type={type} />
                 {touched &&
@@ -47,24 +50,50 @@ const renderField = ({
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            modal: false
+        };
+
+        this.toggle = this.toggle.bind(this);
     }
+
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
 
     render() {
         const { handleSubmit, submitting } = this.props
-        console.log(this.props.user)
         return (
-            <form onSubmit={handleSubmit(({ email, password }) => this.props.login(email, password))}>
-                <div className="form-group">
-                    <Field name="email" type="email" component={renderField} label="Email" />
-                    <Field name="password" type="password" component={renderField} label="Password" />
-                    <div>
-                        <button type="submit" disabled={submitting}>
-                            Submit
-          </button>
-                    </div>
-                </div>
-            </form>
+            <div>
+                <Modal isOpen={this.props.modal} toggle={() => this.props.toggleModal()} className={this.props.className}>
+                    <ModalHeader toggle={() => this.props.toggleModal()}>Connexion</ModalHeader>
+                    <ModalBody>
+                        <form onSubmit={handleSubmit(({ email, password }) => this.props.login(email, password, this.props.history))}>
+
+                            <div className="form-group">
+                                <Field name="email" type="email" component={renderField} label="Email" />
+                            </div>
+                            <div className="form-group">
+
+                                <Field name="password" type="password" component={renderField} label="Mot de passe" />
+                            </div>
+                            <div>
+                                <p className="text-center"><button onClick={() => this.props.toggleModal()} type="submit" className="btn-submit" disabled={submitting}>
+                                    Connexion
+                            </button></p>
+                            </div>
+
+                        </form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Link className="nav-link" onClick={() => this.props.toggleModal()} to="/connexion#connect" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Pas encore de compte ?</Link>
+                    </ModalFooter>
+                </Modal>
+            </div>
+
         );
     }
 }
@@ -75,10 +104,11 @@ const postNewPost = reduxForm({
 })(Login);
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        modal: state.modal
     }
 }
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ login }, dispatch)
+    return bindActionCreators({ login, toggleModal }, dispatch)
 }
-export default connect(mapStateToProps, mapDispatchToProps)(postNewPost)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(postNewPost));

@@ -97,7 +97,8 @@ body {
     background: white;
     width: 70%;
     margin: 0 auto;
-    text-align: center; }
+    text-align: center;
+    height: 250px; }
     .menu-card .descriptive h5 {
       color: #FE2B00; }
     .menu-card .descriptive p em {
@@ -186,5 +187,93 @@ body {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg); }
+
+#connect {
+  padding: 30px; }
+  #connect .title-card {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px; }
+  #connect .login {
+    border: 2px solid #FE2B00;
+    padding: 20px;
+    border-radius: 10px; }
+  #connect .col-lg-2 {
+    position: relative; }
+    #connect .col-lg-2 .separator {
+      height: 350px;
+      width: 1px;
+      background: #D0D0D3;
+      position: absolute;
+      left: 50%;
+      top: 10%; }
+
+.btn-submit {
+  background: #FE2B00;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  text-align: center; }
+
+.modal-title h5 {
+  margin: 0 auto; }
+
+.modal-body p {
+  margin: 0; }
+
+#chef-page {
+  padding: 140px; }
+  #chef-page .card-cooker {
+    position: relative;
+    height: 500px;
+    background: white;
+    padding: 110px 20px 20px 20px; }
+    #chef-page .card-cooker .img-cooker {
+      position: absolute;
+      border-radius: 160px;
+      height: 200px;
+      top: -19%;
+      left: 22%; }
+    #chef-page .card-cooker h5 {
+      text-align: center;
+      color: #FE2B00; }
+    #chef-page .card-cooker .type {
+      color: #FE2B00; }
+  #chef-page .menu-card {
+    margin-top: 100px; }
+  #chef-page .img-menu {
+    height: 200px;
+    top: -40%; }
+  #chef-page .comment-content {
+    padding: 20px;
+    border: 1px solid #FE2B00;
+    border-radius: 10px;
+    margin-top: 40px; }
+    #chef-page .comment-content h6 {
+      color: #FE2B00; }
+    #chef-page .comment-content .comment {
+      padding: 5px;
+      margin-top: 10px;
+      border-radius: 10px; }
+  #chef-page .btn-more {
+    border: none;
+    color: orange;
+    background: none;
+    padding-top: 30px; }
+    #chef-page .btn-more:focus {
+      outline: none; }
+
+#menu-selected {
+  padding-top: 40px; }
+  #menu-selected .menu {
+    margin-top: 40px; }
+    #menu-selected .menu .detail {
+      width: 60%;
+      height: 400px;
+      margin: 0 auto;
+      background: white; }
+  #menu-selected .reservation {
+    margin-top: 40px; }
 
 /*# sourceMappingURL=App.css.map */

@@ -3,7 +3,10 @@ const ActionType = {
     REGISTER_COOKER: 'REGISTER_COOKER',
     ERROR_LOGIN: 'ERROR_LOGIN',
     HOME_COMMENTS: 'HOME_COMMENTS',
-    HOME_MENUS: 'HOME_MENUS'
+    HOME_MENUS: 'HOME_MENUS',
+    LOGOUT: 'LOGOUT',
+    OPEN_LOGIN: 'OPEN_LOGIN',
+    CHEF_MENU: 'CHEF_MENU'
 };
 
 export default ActionType;

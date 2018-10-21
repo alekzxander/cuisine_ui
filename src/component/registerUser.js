@@ -3,6 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { registerUser } from '../action/indexAction';
+import { withRouter } from "react-router";
+
 
 const validate = values => {
     const errors = {}
@@ -41,7 +43,6 @@ const renderField = ({
     meta: { touched, error, warning }
   }) => (
         <div>
-            <label >{label}</label>
             <div>
                 <input {...input} className="form-control" placeholder={label} type={type} />
                 {touched &&
@@ -60,29 +61,39 @@ class RegisterUser extends React.Component {
     render() {
         const { handleSubmit, submitting } = this.props
         return (
-            <form onSubmit={handleSubmit(({ firstNameUser, lastNameUser, emailUser, adresseUser, phoneUser, passwordUser }) => this.props.registerUser(firstNameUser, lastNameUser, emailUser, adresseUser, phoneUser, passwordUser))}>
+            <form onSubmit={handleSubmit(({ firstNameUser, lastNameUser, emailUser, adresseUser, phoneUser, passwordUser }) => this.props.registerUser(firstNameUser, lastNameUser, emailUser, adresseUser, phoneUser, passwordUser, this.props.history))}>
                 <div className="form-group">
                     <Field
                         name="firstNameUser"
                         type="text"
                         component={renderField}
-                        label="firstName"
+                        label="Prenom"
                     />
                 </div>
-                <Field
-                    name="lastNameUser"
-                    type="text"
-                    component={renderField}
-                    label="lastName">
-                </Field>
-                <Field name="adresseUser" type="text" component={renderField} label="Adresse" />
-                <Field name="phoneUser" type="number" component={renderField} label="Phone" />
-                <Field name="emailUser" type="email" component={renderField} label="Email" />
-                <Field name="passwordUser" type="password" component={renderField} label="Password" />
+                <div className="form-group">
+                    <Field
+                        name="lastNameUser"
+                        type="text"
+                        component={renderField}
+                        label="Nom">
+                    </Field>
+                </div>
+                <div className="form-group">
+                    <Field name="adresseUser" type="text" component={renderField} label="Adresse" />
+                </div>
+                <div className="form-group">
+                    <Field name="phoneUser" type="number" component={renderField} label="Téléphone" />
+                </div>
+                <div className="form-group">
+                    <Field name="emailUser" type="email" component={renderField} label="Email" />
+                </div>
+                <div className="form-group">
+                    <Field name="passwordUser" type="password" component={renderField} label="Mot de passe" />
+                </div>
                 <div>
-                    <button type="submit" disabled={submitting}>
-                        Submit
-          </button>
+                    <p className="text-center">   <button type="submit" className="btn-submit" disabled={submitting}>
+                        Inscrivez-vous
+          </button></p>
                 </div>
             </form>
         );
@@ -97,4 +108,4 @@ const postNewPost = reduxForm({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({ registerUser }, dispatch)
 }
-export default connect(null, mapDispatchToProps)(postNewPost)
+export default withRouter(connect(null, mapDispatchToProps)(postNewPost));

@@ -1,8 +1,7 @@
 import React from 'react'
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import RegisterUser from '../component/registerUser';
 import RegisterCooker from '../component/registerCooker';
-import Login from '../component/login';
 
 class IndexLog extends React.Component {
     constructor(props) {
@@ -12,22 +11,31 @@ class IndexLog extends React.Component {
 
     render() {
         return (
-            <Container>
-                <Row>
-                    <Col lg="4">
-                        <h5 className="text-center">Connexion</h5>
-                        <Login />
-                    </Col>
-                    <Col lg="4">
-                        <h5 className="text-center">S'enregistrer</h5>
-                        <RegisterUser />
-                    </Col>
-                    <Col lg="4">
-                        <h5 className="text-center">S'enregistrer en tant que cuisinier</h5>
-                        <RegisterCooker />
-                    </Col>
-                </Row>
-            </Container>
+            <div className="container">
+                <div id="connect">
+                    <h3 className="text-center">Creer un compte</h3>
+                    <Row>
+                        <div className="col-lg-1"></div>
+                        <Col lg="4">
+                            <div className="title-card">
+                                <h5 className="text-center">Particulier</h5>
+                            </div>
+                            <RegisterUser />
+                        </Col>
+                        <div className="col-lg-2">
+                            <div className="separator"></div>
+                        </div>
+
+                        <Col lg="4">
+                            <div className="title-card">
+                                <h5 className="text-center">Cuisinier</h5>
+                            </div>
+                            <RegisterCooker />
+                        </Col>
+                        <div className="col-lg-1"></div>
+                    </Row>
+                </div>
+            </div>
         );
     }
 }

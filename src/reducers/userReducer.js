@@ -1,6 +1,9 @@
 import ActionType from '../action/type';
 
-export default function userReducer(state = null, action) {
+const initialState = {
+    user: 'notLog'
+}
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case ActionType.REGISTER_COOKER:
             const cooker = {
@@ -26,6 +29,8 @@ export default function userReducer(state = null, action) {
         case ActionType.ERROR_LOGIN:
             console.log('error login')
             return action.payload.message
+        case ActionType.LOGOUT:
+            return initialState;
         default:
             return state;
     }

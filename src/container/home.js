@@ -6,7 +6,7 @@ import Comment from '../component/comment';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { commentHome, menuHome } from '../action/indexAction';
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 
 import good from '../images/goodNote.svg';
 import bad from '../images/badNote.svg';
@@ -69,6 +69,7 @@ class Home extends React.Component {
                                 type={menu.type_has_menus}
                                 price={menu.price}
                                 idMenu={menu.id}
+                                cookerId={menu.cooker.id}
                             />
                         </div>)
                 }
@@ -102,7 +103,7 @@ class Home extends React.Component {
 
                         </div>
                     </div>
-                    <p className="text-center"><button className="btn-zot"><Link to="/menu">Découvrez les menus <br /> de nos chefs</Link></button></p>
+                    <p className="text-center"><button className="btn-zot"><Link to="/menus#menu-page" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Découvrez les menus <br /> de nos chefs</Link></button></p>
                 </div>
                 <div className="user-comment-home">
                     <h3 className="text-center">Les avis de nos utilisateurs</h3>
