@@ -1,11 +1,10 @@
 import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getChefMenus } from '../action/indexAction';
+import { selectCooker } from '../action/indexAction';
 import Menu from '../component/menu';
 import good from '../images/goodNote.svg';
 import bad from '../images/badNote.svg';
-// import ImageLoader from 'react-image-file';
 class Cooker extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +13,7 @@ class Cooker extends React.Component {
         }
     }
     componentWillMount = () => {
-        this.props.getChefMenus(this.props.match.params.id);
+        this.props.selectCooker(this.props.match.params.id);
     }
     displayProfil = () => {
         const { cooker } = this.props;
@@ -24,7 +23,7 @@ class Cooker extends React.Component {
             })
             return (
                 <div className="card-cooker">
-                    {/* <img className="img-cooker" src={"data:image/jpg;base64," + cooker.picture} alt="cooker profil" /> */}
+                    <img className="img-cooker" src={"data:image/jpg;base64," + cooker.picture} alt="cooker profil" />
                     <h5>{`${cooker.firstname} ${cooker.lastname}`}</h5>
                     <p>À propos : </p>
                     <p>{cooker.presentation}</p>
@@ -95,12 +94,12 @@ class Cooker extends React.Component {
                 return (
                     <div key={menu.id} className="col-lg-4">
                         <Menu
-                            image={require(`../images/${menu.picture}`)}
+
                             title={menu.title}
                             type={menu.type_has_menus}
                             price={menu.price}
                             idMenu={menu.id}
-
+                            image={"data:image/jpg;base64," + menu.picture} alt={menu.title + "image"}
                         />
                     </div>)
             });
@@ -108,6 +107,7 @@ class Cooker extends React.Component {
     }
 
     render() {
+        console.log(this.props.cooker)
         return (
             <div id="chef-page">
                 <div className="container">
@@ -137,7 +137,7 @@ class Cooker extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        getChefMenus
+        selectCooker
     }, dispatch);
 }
 function mapStateToProps(state) {

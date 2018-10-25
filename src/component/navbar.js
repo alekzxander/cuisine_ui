@@ -32,10 +32,9 @@ class NavbarHeader extends React.Component {
         });
     }
     render() {
-        console.log(this.props.user)
         return (
             <div>
-                <Navbar color="light" light expand="md">
+                <Navbar color="light" light expand="md" >
                     <Link className="navbar-brand" to="/">Accueil</Link>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>

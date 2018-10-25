@@ -1,5 +1,14 @@
 import axios from 'axios';
 import ActionType from './type';
+
+function getBase64(url) {
+    return axios
+        .get(url, {
+            responseType: 'arraybuffer'
+        })
+        .then(response => new Buffer(response.data, 'binary').toString('base64'))
+}
+
 export const registerUser = (firstname, lastname, email, adresse, phone, password, history) => {
     return async dispatch => {
         const user = {
@@ -96,15 +105,13 @@ export const logout = () => {
 export const commentHome = () => {
     return async dispatch => {
         const resComment = await axios.get('http://localhost:3001/comments');
-        const getForComment = resComment.data.comments.filter((comment, i) => {
-            if (i < 4) {
-                return comment;
-            }
-            return '';
+        const getForComment = resComment.data.comments.map(async (comment, i) => {
+            return comment.user.picture = await getBase64(`http://localhost:3001/image/${'User'}/${comment.user.id}`);
         });
+        await Promise.all(getForComment);
         dispatch({
             type: ActionType.HOME_COMMENTS,
-            payload: getForComment
+            payload: resComment.data.comments
         });
     }
 };
@@ -112,6 +119,10 @@ export const commentHome = () => {
 export const menuHome = () => {
     return async dispatch => {
         const resMenu = await axios.get('http://localhost:3001/menus');
+        const getImage = resMenu.data.menus.map(async (menu) => {
+            return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`)
+        });
+        await Promise.all(getImage);
         dispatch({
             type: ActionType.HOME_MENUS,
             payload: resMenu.data.menus
@@ -127,7 +138,7 @@ export const toggleModal = () => {
     }
 }
 
-export const getChefMenus = (id) => {
+export const selectCooker = (id) => {
     return async dispatch => {
 
         const resChefMenu = await axios.get(`http://localhost:3001/menus_chef/${id}`);
@@ -146,9 +157,12 @@ export const getChefMenus = (id) => {
             })
         });
         const menus = cooker.menus.map((menu) => {
-            return menu;
+            return menu
         });
-        const picture = await axios.get(`http://localhost:3001/image_chef/${cooker.id}`)
+        const menusPicture = menus.map(async (menu) => {
+            return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`);
+        });
+        await Promise.all(menusPicture);
         const Cooker = {
             types: typeOfCooker,
             comments,
@@ -158,13 +172,65 @@ export const getChefMenus = (id) => {
             email: cooker.email,
             presentation: cooker.presentation,
             menus,
-            picture: picture.data
-
+            picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
         };
+
         dispatch({
             type: ActionType.CHEF_MENU,
             payload: Cooker
         })
 
+    }
+}
+export const selectMenu = (id) => {
+    return async dispatch => {
+        const menu = await axios.get(`http://localhost:3001/menu/${id}`);
+        menu.data.menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.menu.id}`);
+        menu.data.menu.cooker.picture = await getBase64(`http://localhost:3001/image/${'Cooker'}/${menu.data.menu.cooker.id}`);
+        const commentImg = menu.data.menu.comments.map(async (comment) => {
+            return comment.user.picture = await getBase64(`http://localhost:3001/image/${'User'}/${comment.user.id}`)
+        })
+        await Promise.all(commentImg);
+        dispatch({
+            type: ActionType.SELECT_MENU,
+            payload: menu.data.menu
+        })
+    }
+}
+
+export const filterMenu = (filters) => {
+    return async dispatch => {
+        if (filters.length > 0) {
+            const queryFilters = filters.map((filter, i) => {
+                if (i < 1) {
+                    return `?type=${filter}`
+                }
+                return `&type=${filter}`
+            });
+            let query = '';
+            for (let i = 0; i < queryFilters.length; i++) {
+                query += queryFilters[i];
+            }
+            console.log(`http://localhost:3001/menus/${query}/`)
+            const resMenus = await axios.get(`http://localhost:3001/menus/${query}`);
+            const getImage = resMenus.data.menus.map(async (menu) => {
+                return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`)
+            });
+            await Promise.all(getImage);
+            dispatch({
+                type: ActionType.FILTER_MENU,
+                payload: resMenus.data.menus
+            })
+        } else {
+            const resMenus = await axios.get(`http://localhost:3001/menus`);
+            const getImage = resMenus.data.menus.map(async (menu) => {
+                return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`)
+            });
+            await Promise.all(getImage);
+            dispatch({
+                type: ActionType.FILTER_MENU,
+                payload: resMenus.data.menus
+            })
+        }
     }
 }

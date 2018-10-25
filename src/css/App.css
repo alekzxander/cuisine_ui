@@ -26,6 +26,8 @@ body {
   .btn-zot:hover {
     text-decoration: none;
     color: white; }
+  .btn-zot:disabled {
+    background: rgba(254, 42, 0, 0.32); }
   .btn-zot a {
     color: white; }
     .btn-zot a:hover {
@@ -42,7 +44,7 @@ body {
   height: 120px;
   border-radius: 60px;
   position: absolute;
-  top: -22%;
+  top: -29%;
   right: 25%;
   border: 2px solid white; }
 
@@ -83,7 +85,7 @@ body {
   .menu-card .img-menu {
     height: 250px;
     position: absolute;
-    top: -105%;
+    top: -70%;
     left: 5%;
     z-index: -3;
     border: 2px solid white;
@@ -245,35 +247,103 @@ body {
   #chef-page .img-menu {
     height: 200px;
     top: -40%; }
-  #chef-page .comment-content {
-    padding: 20px;
-    border: 1px solid #FE2B00;
-    border-radius: 10px;
-    margin-top: 40px; }
-    #chef-page .comment-content h6 {
-      color: #FE2B00; }
-    #chef-page .comment-content .comment {
-      padding: 5px;
-      margin-top: 10px;
-      border-radius: 10px; }
-  #chef-page .btn-more {
-    border: none;
-    color: orange;
-    background: none;
-    padding-top: 30px; }
-    #chef-page .btn-more:focus {
-      outline: none; }
+
+.comment-content {
+  padding: 20px;
+  border: 1px solid #FE2B00;
+  border-radius: 10px;
+  margin-top: 40px; }
+  .comment-content h6 {
+    color: #FE2B00; }
+  .comment-content .comment {
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px; }
+
+.btn-more {
+  border: none;
+  color: orange;
+  background: none;
+  padding-top: 30px; }
+  .btn-more:focus {
+    outline: none; }
 
 #menu-selected {
-  padding-top: 40px; }
+  padding-top: 40px;
+  padding-bottom: 40px; }
   #menu-selected .menu {
     margin-top: 40px; }
     #menu-selected .menu .detail {
-      width: 60%;
-      height: 400px;
+      width: 80%;
+      height: auto;
       margin: 0 auto;
-      background: white; }
+      background: white;
+      padding: 20px;
+      position: relative;
+      margin-top: 290px; }
+      #menu-selected .menu .detail .img-selected {
+        position: absolute;
+        height: 300px;
+        width: 120%;
+        left: -10%;
+        z-index: -1;
+        top: -44%;
+        border: 4px solid white; }
+      #menu-selected .menu .detail h3 {
+        color: #FE2B00;
+        text-align: center; }
+      #menu-selected .menu .detail h4 {
+        text-align: center;
+        color: #060606;
+        margin-top: 40px; }
+      #menu-selected .menu .detail p {
+        text-align: center;
+        color: #3D3D3D; }
+      #menu-selected .menu .detail strong {
+        color: #FE2B00; }
+    #menu-selected .menu .cooker {
+      display: flex;
+      width: 80%;
+      height: auto;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-top: 1px solid #D0D0D3; }
+      #menu-selected .menu .cooker div {
+        margin: 10px 0px 0px 20px; }
+      #menu-selected .menu .cooker .image-cooker {
+        height: 90px; }
+    #menu-selected .menu .comment-content {
+      width: 80%;
+      height: auto;
+      margin: 0 auto;
+      margin-top: 40px; }
+      #menu-selected .menu .comment-content .comment {
+        padding: 20px;
+        display: flex; }
+        #menu-selected .menu .comment-content .comment div {
+          margin-left: 20px; }
+        #menu-selected .menu .comment-content .comment .img-user {
+          height: 90px;
+          border-radius: 90px; }
   #menu-selected .reservation {
     margin-top: 40px; }
+    #menu-selected .reservation .choice-guess {
+      padding: 20px;
+      background: white;
+      height: auto;
+      width: 100%;
+      margin-top: 40px; }
+      #menu-selected .reservation .choice-guess p {
+        color: #3D3D3D; }
+      #menu-selected .reservation .choice-guess strong {
+        color: #FE2B00; }
+      #menu-selected .reservation .choice-guess .guess {
+        display: flex;
+        justify-content: space-between; }
+      #menu-selected .reservation .choice-guess .total-price {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px; }
 
 /*# sourceMappingURL=App.css.map */

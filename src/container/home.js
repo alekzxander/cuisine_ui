@@ -18,7 +18,7 @@ class Home extends React.Component {
         super(props);
         this.state = {}
     }
-    componentDidMount = () => {
+    componentWillMount = () => {
         this.props.commentHome();
         this.props.menuHome();
     };
@@ -38,32 +38,37 @@ class Home extends React.Component {
         return result;
     }
     displayComment = () => {
-        if (this.props.comments) {
-            return this.props.comments.map((comment) => {
-                return (
-                    <div key={comment.id} className="col-md-3">
-                        <Comment
-                            image={require(`../images/${comment.user.picture}`)}
-                            alt={'user profil'}
-                            goodNote={this.getGoodNote(comment.score)}
-                            badNote={this.getBadNote(comment.score)}
-                            name={`${comment.user.first_name} ${comment.user.last_name}`}
-                            text={comment.body}
-                        />
-                    </div>
-                )
+        const { comments } = this.props;
+        if (comments) {
+            return comments.map((comment, i) => {
+                if (i < 4) {
+                    return (
+                        <div key={comment.id} className="col-md-3">
+                            <Comment
+                                image={"data:image/jpg;base64," + comment.user.picture}
+                                alt={'user profil'}
+                                goodNote={this.getGoodNote(comment.score)}
+                                badNote={this.getBadNote(comment.score)}
+                                name={`${comment.user.first_name} ${comment.user.last_name}`}
+                                text={comment.body}
+                            />
+                        </div>
+                    )
+                }
+                return '';
             });
         }
         return '';
     };
     displayMenu = () => {
-        if (this.props.menus) {
-            return this.props.menus.map((menu, i) => {
+        const { menus } = this.props;
+        if (menus && menus.length > 1) {
+            return menus.map((menu, i) => {
                 if (i < 3) {
                     return (
                         <div key={menu.id} className="col-md-4">
                             <Menu
-                                image={require(`../images/${menu.picture}`)}
+                                image={"data:image/jpg;base64," + menu.picture}
                                 title={menu.title}
                                 chef={`${menu.cooker.last_name} ${menu.cooker.first_name}`}
                                 type={menu.type_has_menus}

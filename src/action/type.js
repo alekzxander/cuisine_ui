@@ -6,7 +6,9 @@ const ActionType = {
     HOME_MENUS: 'HOME_MENUS',
     LOGOUT: 'LOGOUT',
     OPEN_LOGIN: 'OPEN_LOGIN',
-    CHEF_MENU: 'CHEF_MENU'
+    CHEF_MENU: 'CHEF_MENU',
+    SELECT_MENU: 'SELECT_MENU',
+    FILTER_MENU: 'FILTER_MENU'
 };
 
 export default ActionType;
