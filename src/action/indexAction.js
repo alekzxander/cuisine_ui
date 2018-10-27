@@ -69,7 +69,6 @@ export const login = (email, password, history) => {
             password
         };
         const resLoger = await axios.post('http://localhost:3001/login', loger);
-
         try {
             if (resLoger.data.type === 'cooker') {
                 history.replace('/')
@@ -78,10 +77,20 @@ export const login = (email, password, history) => {
                     payload: resLoger.data
                 })
             } else if (resLoger.data.type === 'user') {
+                const user = {
+                    id: resLoger.data.logUser.id,
+                    firstname: resLoger.data.logUser.first_name,
+                    lastname: resLoger.data.logUser.last_name,
+                    adresse: resLoger.data.logUser.adresse,
+                    phone: resLoger.data.logUser.phone,
+                    token: resLoger.data.token,
+                    type: resLoger.data.type,
+                    picture: await getBase64(`http://localhost:3001/image/${'User'}/${resLoger.data.logUser.id}`)
+                }
                 history.replace('/')
                 dispatch({
                     type: ActionType.REGISTER_USER,
-                    payload: resLoger.data
+                    payload: user
                 })
             } else {
                 dispatch({
@@ -232,5 +241,39 @@ export const filterMenu = (filters) => {
                 payload: resMenus.data.menus
             })
         }
+    }
+}
+
+export const updateUserProfil = (id, token, firstname, lastname, picture, adresse, phone) => {
+    return async dispatch => {
+        console.log(token)
+        const headers = {
+            'Content-Type': 'application/json',
+            'authorization': token,
+        };
+        const data = {
+            firstname,
+            lastname,
+            picture,
+            adresse,
+            phone
+        }
+        const userUpdated = await axios.put(`/profil-user/${id}`, data, { headers });
+        const user = userUpdated.data.userUpdated;
+        const update = {
+            id: user.id,
+            firstname: user.first_name,
+            lastname: user.last_name,
+            adresse: user.adresse,
+            phone: user.phone,
+            token,
+            type: userUpdated.data.type,
+            picture: await getBase64(`http://localhost:3001/image/${'User'}/${user.id}`)
+        }
+        console.log(update)
+        dispatch({
+            type: ActionType.UPDATE_USER,
+            payload: update
+        })
     }
 }

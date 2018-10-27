@@ -50,8 +50,9 @@ class NavbarHeader extends React.Component {
                 </DropdownToggle>
                                     <DropdownMenu right>
                                         <DropdownItem>
-                                            Acceder à mon espace
-                  </DropdownItem>
+                                            {this.props.user.type === 'user' ? <Link className="nav-link" to="/profil-user">Accéder à mon espace</Link > : <Link className="nav-link" to="/profil-cooker">Accéder à mon espace</Link >}
+
+                                        </DropdownItem>
 
                                         <DropdownItem divider />
 

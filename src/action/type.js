@@ -8,7 +8,8 @@ const ActionType = {
     OPEN_LOGIN: 'OPEN_LOGIN',
     CHEF_MENU: 'CHEF_MENU',
     SELECT_MENU: 'SELECT_MENU',
-    FILTER_MENU: 'FILTER_MENU'
+    FILTER_MENU: 'FILTER_MENU',
+    UPDATE_USER: 'UPDATE_USER'
 };
 
 export default ActionType;

@@ -12,25 +12,18 @@ export default function userReducer(state = initialState, action) {
                 lastname: action.payload.logCooker.last_name,
                 id: action.payload.logCooker.id,
                 token: action.payload.token,
-                type: action.payload.type
+                type: action.payload.type,
             };
             return cooker
         case ActionType.REGISTER_USER:
-            const user = {
-                firstname: action.payload.logUser.first_name,
-                lastname: action.payload.logUser.last_name,
-                adresse: action.payload.logUser.adresse,
-                phone: action.payload.logUser.phone,
-                id: action.payload.logUser.id,
-                token: action.payload.token,
-                type: action.payload.type
-            }
-            return user
+            return action.payload
         case ActionType.ERROR_LOGIN:
             console.log('error login')
             return action.payload.message
         case ActionType.LOGOUT:
             return initialState;
+        case ActionType.UPDATE_USER:
+            return action.payload;
         default:
             return state;
     }

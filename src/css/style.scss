@@ -136,7 +136,29 @@ body {
         }
       }
     }
-  
+  }
+  #profil-user {
+   margin-top: $middleMarge;
+  }
+  .user-card-form {
+    width: 100%;
+    margin-top: $middleMarge;
+    margin-bottom: $middleMarge;
+    background: white;
+    height: 600px;
+    .image-content {
+      display: flex;
+    }
+    .image-user {
+      position: relative;
+      top: 0;
+      right: 0;
+      margin: 20px;
+      border-radius: 190px;
+    }
+    .picture {
+      margin : 40px 0 0 20px;
+    }
   }
   #footer {
     background:$primary;

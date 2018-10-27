@@ -108,6 +108,26 @@ body {
     .menu-card .descriptive p strong {
       color: #060606; }
 
+#profil-user {
+  margin-top: 40px; }
+
+.user-card-form {
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  background: white;
+  height: 600px; }
+  .user-card-form .image-content {
+    display: flex; }
+  .user-card-form .image-user {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    border-radius: 190px; }
+  .user-card-form .picture {
+    margin: 40px 0 0 20px; }
+
 #footer {
   background: #FE2B00;
   height: 100px;

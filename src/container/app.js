@@ -7,7 +7,7 @@ import Menus from './menus';
 import Cooker from './cooker';
 import MenuSelected from './menuSelected';
 import { Route, Switch } from 'react-router-dom'
-
+import ProfilUser from './profilUser';
 import { withRouter } from 'react-router-dom';
 
 
@@ -18,12 +18,12 @@ class App extends Component {
       <div>
         < Header />
         <Switch >
+          <Route path="/profil-user" component={ProfilUser} />
           <Route path="/menu/:id" component={MenuSelected} />
           <Route path="/cooker/:id" component={Cooker} />
           <Route path="/connexion" component={IndexLog} />
           <Route path="/menus" component={Menus} />
           <Route path="/" component={Home} />
-
         </Switch>
         <Footer />
       </div>
