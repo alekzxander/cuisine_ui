@@ -64,7 +64,7 @@ class Home extends React.Component {
         const { menus } = this.props;
         if (menus && menus.length > 1) {
             return menus.map((menu, i) => {
-                if (i < 3) {
+                if (i < 3 && menu.cooker) {
                     return (
                         <div key={menu.id} className="col-md-4">
                             <Menu

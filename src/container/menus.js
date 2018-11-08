@@ -22,18 +22,21 @@ class Menus extends React.Component {
     displayMenu = () => {
         if (this.props.menus && Array.isArray(this.props.menus)) {
             return this.props.menus.map((menu) => {
-                return (
-                    <div key={menu.id} className="col-md-4">
-                        <Menu
-                            image={"data:image/jpg;base64," + menu.picture}
-                            title={menu.title}
-                            chef={`${menu.cooker.last_name} ${menu.cooker.first_name}`}
-                            type={menu.type_has_menus}
-                            price={menu.price}
-                            idMenu={menu.id}
-                            cookerId={menu.cooker.id}
-                        />
-                    </div>)
+                if (menu.cooker) {
+                    return (
+                        <div key={menu.id} className="col-md-4">
+                            <Menu
+                                image={"data:image/jpg;base64," + menu.picture}
+                                title={menu.title}
+                                chef={`${menu.cooker.last_name} ${menu.cooker.first_name}`}
+                                type={menu.type_has_menus}
+                                price={menu.price}
+                                idMenu={menu.id}
+                                cookerId={menu.cooker.id}
+                            />
+                        </div>)
+                }
+                return '';
             })
         }
     }

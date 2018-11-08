@@ -1,19 +1,19 @@
 import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateUserProfil } from '../action/indexAction';
+import { updateCookerProfil } from '../action/indexAction';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-class FormUser extends React.Component {
+class FormCooker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             file: '',
             firstname: '',
             lastname: '',
-            adresse: '',
-            phone: '',
             id: '',
-            picture: ''
+            picture: '',
+            preview: null
         }
     }
     componentDidMount = () => {
@@ -22,19 +22,11 @@ class FormUser extends React.Component {
             this.setState({
                 firstname: user.firstname,
                 lastname: user.lastname,
-                adresse: user.adresse,
-                phone: user.phone,
                 id: user.id,
-                picture: user.picture
+                picture: user.picture,
+                presentation: user.presentation
             });
         }
-    }
-
-    handleSubmit(event) {
-        const { lastname, firstname, adresse, phone } = event.target;
-        event.preventDefault();
-        this.props.updateUserProfil(this.props.user.id, this.props.user.token, firstname.value, lastname.value, this.state.file, adresse.value, phone.value)
-        return false
     }
     handleChange(event) {
         if (event.target.files.length === 1) {
@@ -53,21 +45,28 @@ class FormUser extends React.Component {
             [e.target.name]: e.target.value
         })
     }
+    handleSubmit(event) {
+        const { lastname, firstname, presentation } = event.target;
+        event.preventDefault();
+        this.props.updateCookerProfil(this.props.user.id, this.props.user.token, firstname.value, lastname.value, this.state.file, presentation.value)
+        return false
+    }
     render() {
-        const { picture, firstname, lastname, adresse, phone, preview } = this.state;
+        const { picture, firstname, lastname, preview, presentation, file } = this.state;
         return (
-            <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)} >
+            <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)}>
                 <div className="form-group image-content">
-                    {this.state.file ? <img src={preview} className="image-user" alt="avatar" /> : <img src={"data:image/jpg;base64," + picture} alt="avatar" className="image-user" />}
-                    <label className="picture" htmlFor="avatar">Changer de photo
-                    <input
+                    {file ? <img src={preview} className="image-user" alt="avatar" /> : <img src={"data:image/jpg;base64," + picture} alt="avatar" className="image-user" />}
+                    <div>
+                        <label className="picture" htmlFor="avatar"><FontAwesomeIcon icon="plus-circle" /></label>
+                        <input
                             type="file"
                             name="avatar"
-                            className="form-control"
+                            className="form-control picture-file"
                             id="avatar"
                             onChange={(e) => this.handleChange(e)}
                         />
-                    </label>
+                    </div>
                 </div>
                 <div className="form-group">
                     <label htmlFor="firstname">Prenom</label>
@@ -88,45 +87,26 @@ class FormUser extends React.Component {
                         className="form-control"
                         id="lastname"
                     />
-
                 </div>
                 <div className="form-group">
-                    <label htmlFor="adresse">Adresse</label>
-                    <input
-                        name="adresse"
-                        value={adresse}
-                        type="text"
-                        className="form-control"
-                        id="adresses"
-                    />
+                    <label htmlFor="presentation">A propos de vous</label>
+                    <textarea className="form-control" value={presentation} name="presentation" id="presentation" >
+                        {presentation}
+                    </textarea>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="phone">Téléphone</label>
-                    <input
-                        name="phone"
-                        type="text"
-                        className="form-control"
-                        id="phone"
-                        value={phone}
-                    />
-                </div>
-
-                <div>
-                    <p className="text-center">   <button type="submit" className="btn-submit">
-                        Sauvegarder mes modifications
+                <p className="text-center">   <button type="submit" className="btn-submit">
+                    Sauvegarder mes modifications
           </button></p>
-                </div>
             </form>
         );
     }
 }
-
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ updateUserProfil }, dispatch)
+    return bindActionCreators({ updateCookerProfil }, dispatch)
 }
 const mapStateToProps = (state) => {
     return {
         user: state.user
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(FormUser);
+export default connect(mapStateToProps, mapDispatchToProps)(FormCooker);

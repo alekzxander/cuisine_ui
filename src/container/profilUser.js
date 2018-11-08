@@ -17,7 +17,7 @@ class ProfilUser extends React.Component {
     }
     userFind() {
         return (
-            <div id="profil-user" className="container">
+            <div className="profil-user container">
                 <h2 className="text-center">Mon espace perso</h2>
                 <div className="row">
                     <div className="user-card-form col-md-8">
@@ -30,8 +30,7 @@ class ProfilUser extends React.Component {
     render() {
         return (
             <div>
-                {/* {this.props.user.token ? this.userFind() : this.userNotFind()} */}
-                {this.userFind()}
+                {this.props.user.token ? this.userFind() : this.userNotFind()}
             </div>
         );
     }

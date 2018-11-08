@@ -6,24 +6,20 @@ const initialState = {
 export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case ActionType.REGISTER_COOKER:
-            const cooker = {
-                email: action.payload.logCooker.email,
-                firstname: action.payload.logCooker.first_name,
-                lastname: action.payload.logCooker.last_name,
-                id: action.payload.logCooker.id,
-                token: action.payload.token,
-                type: action.payload.type,
-            };
-            return cooker
+            return action.payload
         case ActionType.REGISTER_USER:
             return action.payload
         case ActionType.ERROR_LOGIN:
-            console.log('error login')
             return action.payload.message
         case ActionType.LOGOUT:
             return initialState;
         case ActionType.UPDATE_USER:
             return action.payload;
+        case ActionType.UPDATE_COOKER:
+            return action.payload;
+            case ActionType.BOOKING_DATE:
+                state.date = action.payload;
+                return state;
         default:
             return state;
     }

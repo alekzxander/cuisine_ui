@@ -69,13 +69,26 @@ export const login = (email, password, history) => {
             password
         };
         const resLoger = await axios.post('http://localhost:3001/login', loger);
+        console.log(resLoger.data.logCooker)
         try {
             if (resLoger.data.type === 'cooker') {
+                const cooker = {
+                    email: resLoger.data.logCooker.email,
+                    firstname: resLoger.data.logCooker.first_name,
+                    lastname: resLoger.data.logCooker.last_name,
+                    id: resLoger.data.logCooker.id,
+                    token: resLoger.data.token,
+                    type: resLoger.data.type,
+                    presentation: resLoger.data.logCooker.presentation,
+                    date : resLoger.data.logCooker.calendars ,
+                    picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resLoger.data.logCooker.id}`)
+                };
                 history.replace('/')
+                const localLogin = localStorage
                 dispatch({
                     type: ActionType.REGISTER_COOKER,
-                    payload: resLoger.data
-                })
+                    payload: cooker
+                });
             } else if (resLoger.data.type === 'user') {
                 const user = {
                     id: resLoger.data.logUser.id,
@@ -149,7 +162,6 @@ export const toggleModal = () => {
 
 export const selectCooker = (id) => {
     return async dispatch => {
-
         const resChefMenu = await axios.get(`http://localhost:3001/menus_chef/${id}`);
         let comments = [];
         let typeOfCooker = [];
@@ -183,7 +195,6 @@ export const selectCooker = (id) => {
             menus,
             picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
         };
-
         dispatch({
             type: ActionType.CHEF_MENU,
             payload: Cooker
@@ -244,21 +255,24 @@ export const filterMenu = (filters) => {
     }
 }
 
-export const updateUserProfil = (id, token, firstname, lastname, picture, adresse, phone) => {
+export const updateUserProfil = (id, token, firstname, lastname, image, adresse, phone) => {
     return async dispatch => {
-        console.log(token)
-        const headers = {
-            'Content-Type': 'application/json',
-            'authorization': token,
-        };
-        const data = {
+        const data = JSON.stringify({
             firstname,
             lastname,
-            picture,
             adresse,
             phone
+        })
+        let formData = new FormData();
+        formData.append('avatar', image);
+        formData.set('data', data)
+        const config = {
+            headers: {
+                'authorization': token,
+                'content-type': 'multipart/form-data'
+            }
         }
-        const userUpdated = await axios.put(`/profil-user/${id}`, data, { headers });
+        const userUpdated = await axios.put(`/profil-user/${id}`, formData, config);
         const user = userUpdated.data.userUpdated;
         const update = {
             id: user.id,
@@ -270,10 +284,171 @@ export const updateUserProfil = (id, token, firstname, lastname, picture, adress
             type: userUpdated.data.type,
             picture: await getBase64(`http://localhost:3001/image/${'User'}/${user.id}`)
         }
-        console.log(update)
         dispatch({
             type: ActionType.UPDATE_USER,
             payload: update
         })
     }
+};
+export const updateCookerProfil = (id, token, firstname, lastname, image, presentation) => {
+    return async dispatch => {
+        const data = JSON.stringify({
+            firstname,
+            lastname,
+            presentation
+        });
+        let formData = new FormData();
+        formData.append('avatar', image);
+        formData.set('data', data);
+        const config = {
+            headers: {
+                'authorization': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const cookerUpdated = await axios.put(`/profil-cooker/${id}`, formData, config);
+        const cooker = cookerUpdated.data.cookerUpdated;
+        const update = {
+            id: cooker.id,
+            lastname: cooker.last_name,
+            firstname: cooker.first_name,
+            presentation: cooker.presentation,
+            token,
+            type: cookerUpdated.data.type,
+            picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
+        }
+        dispatch({
+            type: ActionType.UPDATE_COOKER,
+            payload: update
+        })
+    }
+};
+
+export const menuByCooker = (id) => {
+    return async dispatch => {
+        const menus = await axios.get(`http://localhost:3001/menus_cooker/${id}`);
+        const menusPicture = menus.data.menus.map(async (menu) => {
+            return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`);
+        });
+        await Promise.all(menusPicture);
+        dispatch({
+            type: ActionType.MENUS_COOKER,
+            payload: menus.data.menus
+        })
+    }
+};
+export const createMenu = (token, title, start, dish, draft, price, dessert, picture, type) => {
+    console.log(type, 'CREATE NEW MENU')
+    return async dispatch => {
+        const data = JSON.stringify({
+            title,
+            start,
+            dish,
+            dessert,
+            draft,
+            price,
+            type
+        });
+        let formData = new FormData();
+        formData.append('picture', picture);
+        formData.set('data', data);
+
+        const config = {
+            headers: {
+                'authorization': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const menu = await axios.post(`/menu`, formData, config);
+        console.log(menu.data, 'new menu')
+        menu.data.createMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.createMenu.id}`);
+        dispatch({
+            type: ActionType.CREATE_MENU,
+            payload: menu.data.createMenu
+        });
+    }
 }
+export const removeMenu = (id, token) => {
+    return async dispatch => {
+        const config = {
+            headers: {
+                'authorization': token,
+            }
+        }
+        const resStatus = await axios.delete(`/menu/${id}`, config)
+        if (resStatus.status === 200) {
+            dispatch({
+                type: ActionType.REMOVE_MENU,
+                payload: id
+            });
+        } else {
+            console.log('error remove')
+        }
+    }
+}
+
+export const getMenu = (id) => {
+    return async dispatch => {
+        dispatch({
+            type: ActionType.GET_MENU,
+            payload: id
+        });
+    }
+}
+
+export const updateMenu = (token, id, title, start, dish, draft, price, dessert, picture, type) => {
+    console.log(type, 'type of menu !!!')
+    return async dispatch => {
+        const data = JSON.stringify({
+            title,
+            start,
+            dish,
+            dessert,
+            draft,
+            price,
+            type
+        });
+        let formData = new FormData();
+        formData.append('picture', picture);
+        formData.set('data', data);
+        const config = {
+            headers: {
+                'authorization': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        const resMenu = await axios.put(`/menu/${id}`, formData, config);
+        if (resMenu.status === 200) {
+            const menu = resMenu.data.menu;
+            console.log(menu)
+            menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${id}`);
+            dispatch({
+                type: ActionType.UPDATE_MENU,
+                payload: menu
+            });
+        }
+    }
+}
+export const dateBooking = (date,token) => {
+    return async dispatch => {
+        const config = {
+            headers: {
+                'authorization': token,
+            }
+        }
+        const data = {
+            date
+        }
+        const resBook = await axios.post(`/calendar`, data, config);
+        if(resBook.status === 200){
+            dispatch({
+                type : ActionType.BOOKING_DATE,
+                payload : date
+            })
+        }else{
+            console.log('error booking date')
+        }   
+        
+    }
+}
+ 

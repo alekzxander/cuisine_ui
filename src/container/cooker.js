@@ -92,7 +92,7 @@ class Cooker extends React.Component {
         if (cooker) {
             return cooker.menus.map((menu) => {
                 return (
-                    <div key={menu.id} className="col-lg-4">
+                    <div key={menu.id} className="col-lg-6">
                         <Menu
 
                             title={menu.title}
@@ -101,7 +101,8 @@ class Cooker extends React.Component {
                             idMenu={menu.id}
                             image={"data:image/jpg;base64," + menu.picture} alt={menu.title + "image"}
                         />
-                    </div>)
+                    </div>
+                )
             });
         }
     }
@@ -110,7 +111,7 @@ class Cooker extends React.Component {
         console.log(this.props.cooker)
         return (
             <div id="chef-page">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-4">
                             {this.displayProfil()}
@@ -128,7 +129,11 @@ class Cooker extends React.Component {
                                 <p className="text-center"><button onClick={() => this.moreComments()} className="btn-more">Afficher plus</button></p>
                             </div>
                         </div>
-                        {this.displayMenus()}
+                        <div className="col-md-8">
+                            <div className="row">
+                                {this.displayMenus()}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
