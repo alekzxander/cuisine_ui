@@ -11,10 +11,10 @@ import ProfilUser from './profilUser';
 import { withRouter } from 'react-router-dom';
 import ProfilCooker from './profilCooker';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleDown, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faPlusCircle, faCalendarAlt, faLock } from '@fortawesome/free-solid-svg-icons'
 import 'react-dates/lib/css/_datepicker.css';
 
-library.add(faAngleDown, faPlusCircle)
+library.add(faAngleDown, faPlusCircle, faCalendarAlt, faLock)
 
 class App extends Component {
 

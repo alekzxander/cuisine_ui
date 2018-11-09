@@ -17,9 +17,9 @@ export default function userReducer(state = initialState, action) {
             return action.payload;
         case ActionType.UPDATE_COOKER:
             return action.payload;
-            case ActionType.BOOKING_DATE:
-                state.date = action.payload;
-                return state;
+        case ActionType.BOOKING_DATE:
+            state.dates = action.payload;
+            return state;
         default:
             return state;
     }

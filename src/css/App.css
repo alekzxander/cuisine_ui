@@ -27,13 +27,13 @@ body {
   .btn-zot:hover {
     text-decoration: none;
     color: white; }
-  .btn-zot:disabled {
-    background: rgba(254, 42, 0, 0.32); }
   .btn-zot a {
     color: white; }
     .btn-zot a:hover {
       text-decoration: none;
       color: white; }
+  .btn-zot svg {
+    margin: 2px 5px; }
 
 .user-comment-home {
   margin-top: 40px;
@@ -149,7 +149,7 @@ body {
     display: none; }
 
 #footer {
-  background: #261F18;
+  background: #222;
   height: 100px;
   width: 100%; }
 
@@ -301,7 +301,6 @@ body {
   padding: 140px 10px; }
   #chef-page .card-cooker {
     position: relative;
-    height: 500px;
     background: white;
     padding: 110px 20px 20px 20px; }
     #chef-page .card-cooker .img-cooker {
@@ -309,7 +308,7 @@ body {
       border-radius: 160px;
       height: 200px;
       top: -19%;
-      left: 22%; }
+      left: 26%; }
     #chef-page .card-cooker h5 {
       text-align: center;
       color: #FE2B00; }
@@ -402,20 +401,32 @@ body {
           height: 90px;
           border-radius: 90px; }
   #menu-selected .reservation {
-    margin-top: 40px; }
+    margin-top: 75px; }
+    #menu-selected .reservation .header {
+      padding: 18px 0px 6px 15px;
+      background: #222;
+      border-bottom: 1px solid #111;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px; }
+      #menu-selected .reservation .header h5 {
+        color: white;
+        text-transform: uppercase; }
     #menu-selected .reservation .choice-guess {
       padding: 20px;
-      background: white;
+      background: #222;
       height: auto;
       width: 100%;
-      margin-top: 40px; }
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px; }
       #menu-selected .reservation .choice-guess p {
-        color: #3D3D3D; }
+        color: white; }
       #menu-selected .reservation .choice-guess strong {
-        color: #FE2B00; }
-      #menu-selected .reservation .choice-guess .guess {
+        color: #FE2B00;
+        font-size: 18px; }
+      #menu-selected .reservation .choice-guess .guest, #menu-selected .reservation .choice-guess .price, #menu-selected .reservation .choice-guess .total-price, #menu-selected .reservation .choice-guess .calendar {
         display: flex;
-        justify-content: space-between; }
+        justify-content: space-between;
+        margin-bottom: 20px; }
       #menu-selected .reservation .choice-guess .total-price {
         display: flex;
         justify-content: space-between;
@@ -442,5 +453,18 @@ body {
     justify-content: space-between; }
     .form-menu .menu-price .draft-menu {
       margin-top: 40px; }
+
+.user-not-find {
+  border: 10px solid #ED4F4F;
+  height: 400px;
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding-top: 11%; }
+  .user-not-find h3 {
+    text-align: center;
+    color: #ED4F4F;
+    vertical-align: middle; }
 
 /*# sourceMappingURL=App.css.map */

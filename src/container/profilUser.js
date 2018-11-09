@@ -10,8 +10,8 @@ class ProfilUser extends React.Component {
     }
     userNotFind() {
         return (
-            <div>
-                <h2>Veuillez vous connectez pour avoir accés à cette session</h2>
+            <div className="user-not-find">
+                <h3>Cette section est inaccessible si vous n'êtes pas connecter</h3>
             </div>
         )
     }

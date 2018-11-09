@@ -80,7 +80,7 @@ export const login = (email, password, history) => {
                     token: resLoger.data.token,
                     type: resLoger.data.type,
                     presentation: resLoger.data.logCooker.presentation,
-                    date : resLoger.data.logCooker.calendars ,
+                    dates: resLoger.data.logCooker.dates,
                     picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resLoger.data.logCooker.id}`)
                 };
                 history.replace('/')
@@ -209,7 +209,7 @@ export const selectMenu = (id) => {
         menu.data.menu.cooker.picture = await getBase64(`http://localhost:3001/image/${'Cooker'}/${menu.data.menu.cooker.id}`);
         const commentImg = menu.data.menu.comments.map(async (comment) => {
             return comment.user.picture = await getBase64(`http://localhost:3001/image/${'User'}/${comment.user.id}`)
-        })
+        });
         await Promise.all(commentImg);
         dispatch({
             type: ActionType.SELECT_MENU,
@@ -308,6 +308,7 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
         }
         const cookerUpdated = await axios.put(`/profil-cooker/${id}`, formData, config);
         const cooker = cookerUpdated.data.cookerUpdated;
+        console.log(cooker)
         const update = {
             id: cooker.id,
             lastname: cooker.last_name,
@@ -315,6 +316,7 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
             presentation: cooker.presentation,
             token,
             type: cookerUpdated.data.type,
+            dates: cooker.dates,
             picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
         }
         dispatch({
@@ -429,7 +431,7 @@ export const updateMenu = (token, id, title, start, dish, draft, price, dessert,
         }
     }
 }
-export const dateBooking = (date,token) => {
+export const dateBooking = (date, token) => {
     return async dispatch => {
         const config = {
             headers: {
@@ -439,16 +441,16 @@ export const dateBooking = (date,token) => {
         const data = {
             date
         }
-        const resBook = await axios.post(`/calendar`, data, config);
-        if(resBook.status === 200){
+        const resBook = await axios.post(`/date`, data, config);
+        console.log(resBook)
+        if (resBook.status === 200) {
             dispatch({
-                type : ActionType.BOOKING_DATE,
-                payload : date
+                type: ActionType.BOOKING_DATE,
+                payload: resBook.data.dates
             })
-        }else{
+        } else {
             console.log('error booking date')
-        }   
-        
+        }
+
     }
 }
- 

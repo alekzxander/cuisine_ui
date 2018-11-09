@@ -109,7 +109,7 @@ class UpdateMenu extends React.Component {
         }
     }
     render() {
-        const { title, start, dish, dessert, price, draftCase, preview, file, picture, typeSelected, types } = this.state;
+        const { title, start, dish, dessert, price, draftCase, preview, file, picture, typeSelected } = this.state;
         console.log(this.props.menuId)
         return (<div className="form-menu">
             <h5 className="text-center">Ajouter un menu</h5>

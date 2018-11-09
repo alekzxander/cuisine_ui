@@ -1,10 +1,9 @@
 import React from 'react'
-import InfiniteCalendar from 'react-infinite-calendar';
-import 'react-infinite-calendar/styles.css';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { selectMenu } from '../action/indexAction';
 import { HashLink as Link } from 'react-router-hash-link';
+import Reservation from '../component/reservation';
 
 class MenuSelected extends React.Component {
     constructor(props) {
@@ -15,6 +14,7 @@ class MenuSelected extends React.Component {
             totalPrice: 0,
             date: '',
             checkMenu: true,
+            availableDate: ''
         }
         this.updatePrice = this.updatePrice.bind(this);
         this.commandMenu = this.commandMenu.bind(this);
@@ -25,7 +25,8 @@ class MenuSelected extends React.Component {
         if (menu) {
             this.setState({
                 price: menu.price,
-                totalPrice: menu.price
+                totalPrice: menu.price,
+                availableDate: menu.cooker.dates
             })
         }
     }
@@ -75,7 +76,7 @@ class MenuSelected extends React.Component {
                     <img src={"data:image/jpg;base64," + cooker.picture} className="image-cooker" alt="" />
                     <div>
                         <p>A props du chef ...</p>
-                        <h6><Link to={`/cooker/${cooker.id}`}>{`${cooker.first_name} ${cooker.last_name}`}</Link></h6>
+                        <h6><Link scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })} to={`/cooker/${cooker.id}/#chef-page`}>{`${cooker.first_name} ${cooker.last_name}`}</Link></h6>
                     </div>
                 </div>
             )
@@ -106,13 +107,11 @@ class MenuSelected extends React.Component {
             <div className="container" id="menu-selected">
                 <h1 className="text-center">Reservez un menu</h1>
                 <div className="row">
-
                     <div className="col-lg-8">
                         <div className="menu">
                             {this.displayMenu()}
                             {this.displayCooker()}
                             <div className="comment-content">
-
                                 <h4 className="text-center">Les avis :</h4>
                                 {this.displayComment()}
                                 <p className="text-center"><button onClick={() => this.moreComments()} className="btn-more">Afficher plus</button></p>
@@ -120,61 +119,11 @@ class MenuSelected extends React.Component {
                         </div>
                     </div>
                     <div className="col-lg-4">
-                        <div className="reservation">
-                            <InfiniteCalendar
-                                width={"100%"}
-                                height={400}
-                                onSelect={this.commandMenu}
-                                locale={{
-                                    locale: require('date-fns/locale/fr'),
-                                    headerFormat: 'dddd, D MMM',
-                                    weekdays: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-                                    blank: 'Aucune date selectionnee',
-                                    todayLabel: {
-                                        long: 'Aujourd\'hui',
-                                        short: 'Auj.'
-                                    }
-                                }}
-                                theme={{
-                                    selectionColor: '#FE2B00',
-                                    textColor: {
-                                        default: '#333',
-                                        active: '#FFF'
-                                    },
-                                    weekdayColor: '#FE2B00',
-                                    headerColor: ' rgba(254, 38, 0, 0.66)',
-                                    floatingNav: {
-                                        background: ' rgba(254, 123, 0, 0.56)',
-                                        color: '#FFF',
-                                        chevron: '#FFA726'
-                                    }
-                                }}
-                            />
-                            <div className="choice-guess">
-                                <div className="guess">
-                                    <p>Nombre de convives</p>
-                                    <p><strong>{this.state.price}€</strong> par personne</p>
-
-                                </div>
-                                <div className="total-price">
-                                    <select id="monselect" onChange={this.updatePrice}>
-                                        <option value="2">2 personne</option>
-                                        <option value="4">4 personnes</option>
-                                        <option value="6">6 personnes</option>
-                                        <option value="8">8 personnes</option>
-                                        <option value="10">10 personnes</option>
-                                        <option value="12">12 personnes</option>
-                                    </select>
-                                    <p>Total : <strong>{this.state.totalPrice}€</strong></p>
-                                </div>
-
-                                <p className="text-center">
-                                    <button className="btn-zot" disabled={this.state.checkMenu} >
-                                        Reserver cette presentation
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
+                        <Reservation
+                            handleGuest={this.updatePrice}
+                            price={this.state.price}
+                            totalPrice={this.state.totalPrice}
+                        />
                     </div>
                 </div>
             </div >

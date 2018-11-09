@@ -65,7 +65,6 @@ class Menus extends React.Component {
         }
     }
     render() {
-        console.log(this.props.menus)
         return (
             <div id="menu-page">
                 <h3 className="text-center">Nos menus</h3>

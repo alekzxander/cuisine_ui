@@ -7,6 +7,7 @@ import AdminMenu from '../component/adminMenu';
 import FormMenu from '../component/formMenu';
 import UpdateMenu from '../component/updateMenu';
 import CookerCalendar from '../component/cookerCalendar';
+import { withRouter } from 'react-router-dom';
 
 class ProfilCooker extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class ProfilCooker extends React.Component {
             menuSelected: id
         });
     }
-  
+
     displayMenus = () => {
         const { menus } = this.props;
         if (menus && menus.length > 0) {
@@ -46,6 +47,7 @@ class ProfilCooker extends React.Component {
                             removeMenu={() => this.handleRemove(menu.id)}
                             update={() => this.updateContext(menu.id)}
                             type={menu.type_has_menus}
+                            draft={menu.draft}
                         />
                     </div>
                 )
@@ -96,29 +98,38 @@ class ProfilCooker extends React.Component {
     }
     render() {
         const { contextMenu } = this.state;
-        return (
-            <div>
-                <div className="profil-user container">
-                    <div className="selector-control">
-                        {contextMenu === 'display' ? <button style={{ height: '45px' }} className="btn-zot" onClick={() => this.handleChange('create')}>Ajouter un menu</button> : <button className="btn-zot" onClick={() => { this.handleChange('display'); this.props.menuByCooker(this.props.user.id) }}>Afficher les menus</button>}
-                        <p><button style={{ marginLeft: '20px' }} onClick={() => this.handleChange('calendar')} className="btn-zot">Calendrier</button></p>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-lg-4 user-card-form">
-                            <FormCooker
-                            />
+        if (this.props.user.token) {
+            return (
+                <div id="profil-cooker">
+                    <div className="profil-user container">
+                        <div className="selector-control">
+                            {contextMenu === 'display' ? <button style={{ height: '45px' }} className="btn-zot" onClick={() => this.handleChange('create')}>Ajouter un menu</button> : <button className="btn-zot" onClick={() => { this.handleChange('display'); this.props.menuByCooker(this.props.user.id) }}>Afficher les menus</button>}
+                            <p><button style={{ marginLeft: '20px' }} onClick={() => this.handleChange('calendar')} className="btn-zot">Calendrier</button></p>
                         </div>
-                        <div className="col-lg-8 menu-cooker-admin">
-                            <div className="row">
-                                {this.menuContext()}
+
+                        <div className="row">
+                            <div className="col-lg-4 user-card-form">
+                                <FormCooker
+                                />
+                            </div>
+                            <div className="col-lg-8 menu-cooker-admin">
+                                <div className="row">
+                                    {this.menuContext()}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        );
+            );
+        } else {
+            return (
+                <div className="user-not-find">
+                    <h3>Cette section est inaccessible si vous n'êtes pas connecter</h3>
+                </div>
+            )
+        }
+
     }
 }
 const mapStateToProps = (state) => {
@@ -130,4 +141,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({ menuByCooker, removeMenu }, dispatch)
 }
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilCooker);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilCooker));

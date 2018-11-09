@@ -1,6 +1,7 @@
 $primary : #FE2B00;
+$error : #ED4F4F;
 $success : #ffc107;
-$secondary : #261F18;
+$secondary : #222;
 $text : #3D3D3D;
 $black : #060606;
 $dark : #D0D0D3;
@@ -42,15 +43,15 @@ body {
         text-decoration: none;
         color: white;
       }
-      &:disabled {
-        background:  rgba(254, 42, 0, 0.32);
-      }
     a {
       color : white;
       &:hover{
         text-decoration: none;
         color: white;
       }
+    }
+    svg {
+      margin: 2px 5px;
     }
   }
   .user-comment-home {
@@ -187,7 +188,7 @@ body {
     }
   }
   #footer {
-    background:$secondary;
+    background: $secondary;
     height: 100px;
     width: 100%;
   }
@@ -373,7 +374,6 @@ body {
   padding: $bigMarge 10px;
   .card-cooker {
     position: relative;
-    height: 500px;
     background: white;
     padding : 110px 20px 20px 20px;
     .img-cooker {
@@ -381,7 +381,7 @@ body {
       border-radius: 160px;
       height: 200px;
       top: -19%;
-      left:22%;
+      left:26%;
     }
     h5 {
       text-align :center;
@@ -498,23 +498,38 @@ body {
     }
   }
   .reservation {
-    margin-top: $middleMarge;
+    margin-top: 75px;
+    .header {
+      padding: 18px 0px 6px 15px;
+      background : #222;
+      border-bottom: 1px solid #111;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      h5 {
+        color : white;
+        text-transform: uppercase;
+      }
+    }
     .choice-guess {
       padding: $littleMarge;
-      background: white;
+      background: #222;
       height: auto;
       width: 100%;
-      margin-top: $middleMarge;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
       p {
-        color : $text;
+        color : white;
       }
       strong {
         color : $primary;
+        font-size: 18px;
       }
-      .guess {
+      .guest,.price,.total-price,.calendar {
         display: flex;
         justify-content: space-between;
+        margin-bottom: $littleMarge;
       }
+      
       .total-price {
         display: flex;
         justify-content :space-between;
@@ -551,5 +566,20 @@ body {
     .draft-menu {
       margin-top: $middleMarge;
     }
+  }
+}
+
+.user-not-find {
+  border: 10px solid $error;
+  height : 400px;
+  width: 70%;
+  margin: 0 auto;
+  margin-top: $middleMarge;
+  margin-bottom: $middleMarge;
+  padding-top: 11%;
+  h3 {
+    text-align: center;
+    color :$error;
+    vertical-align: middle;
   }
 }

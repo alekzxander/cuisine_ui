@@ -7,10 +7,10 @@ const Menu = (props) => {
             <img src={props.image} alt="" className="img-menu" />
             <div className="descriptive">
                 <h5>{props.title}</h5>
-                {props.chef ? <h6>Chef : <Link to={`/cooker/${props.cookerId}`}>{props.chef}</Link></h6> : ''}
+                {props.chef ? <h6>Chef : <Link scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })} to={`/cooker/${props.cookerId}/#chef-page`}>{props.chef}</Link></h6> : ''}
                 <p>type : <em>{props.type.map(types => ` - ${types.type.name} `)}</em> </p>
                 <p>Prix/Personne : <strong>{props.price} €</strong></p>
-                <Link to={`/menu/${props.idMenu}`} className="btn-zot">découvrez le menu</Link>
+                <Link scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })} to={`/menu/${props.idMenu}/#menu-selected`} className="btn-zot">découvrez le menu</Link>
             </div>
         </div>
     )

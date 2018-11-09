@@ -19,6 +19,7 @@ class AdminMenu extends React.Component {
             <div className="admin-card">
                 <img src={this.props.pictureCard} alt="" />
                 <h5>{this.props.title}</h5>
+                {this.props.draft ? <p className="text-center">(Brouillon)</p> : ''}
                 <p className="text-center"><em>{this.props.type.map(types => ` ${types.type.name},`)}</em> </p>
                 <div className="content">
                     <p><button onClick={() => this.props.update()} className="update">Modifier</button></p><p><button onClick={this.toggle} className="remove">Supprimer</button></p>

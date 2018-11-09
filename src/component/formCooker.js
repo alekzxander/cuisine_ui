@@ -90,9 +90,10 @@ class FormCooker extends React.Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="presentation">A propos de vous</label>
-                    <textarea className="form-control" value={presentation} name="presentation" id="presentation" >
+                    <textarea className="form-control" rows="10" value={presentation} name="presentation" id="presentation" >
                         {presentation}
                     </textarea>
+                    {/* <textarea name="" id="" cols="30" rows="10"></textarea> */}
                 </div>
                 <p className="text-center">   <button type="submit" className="btn-submit">
                     Sauvegarder mes modifications

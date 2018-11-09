@@ -43,30 +43,23 @@ class NavbarHeader extends React.Component {
                                 <Link className="nav-link" to="/menus#menu-page" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                                 >Nos menus</Link>
                             </NavItem>
-                            <NavItem>
-                                {this.props.user.token ? <UncontrolledDropdown nav inNavbar>
-                                    <DropdownToggle style={{ color: '#FE2B00' }} nav caret>
-                                        Mon profil
-                </DropdownToggle>
-                                    <DropdownMenu right>
-                                        <DropdownItem>
-                                            {this.props.user.type === 'user' ? <Link className="nav-link" to="/profil-user">Accéder à mon espace</Link > : <Link className="nav-link" to={`/profil-cooker/${this.props.user.id}`}>Accéder à mon espace</Link >}
+                            {this.props.user.token ? <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle style={{ color: '#FE2B00' }} nav caret>
+                                    Mon profil
+                                     </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem>
+                                        {this.props.user.type === 'user' ? <Link className="nav-link" to="/profil-user">Accéder à mon espace</Link > : <Link className="nav-link" to={`/profil-cooker/${this.props.user.id}#profil-cooker`}>Accéder à mon espace</Link >}
 
-                                        </DropdownItem>
+                                    </DropdownItem>
 
-                                        <DropdownItem divider />
+                                    <DropdownItem divider />
 
-                                        <Link className="dropdown-item" style={{ color: '#FE2B00' }} onClick={() => this.props.logout()} to="/">Me deconnecter</Link>
-                                    </DropdownMenu>
-                                </UncontrolledDropdown> : ''}
-                            </NavItem>
-                            {/* <NavItem> */}
+                                    <Link className="dropdown-item" style={{ color: '#FE2B00' }} onClick={() => this.props.logout()} to="/">Me deconnecter</Link>
+                                </DropdownMenu>
+                            </UncontrolledDropdown> : ''}
+
                             {this.props.user.token ? '' : <NavLink style={{ cursor: 'pointer' }} onClick={() => this.props.toggleModal()}>Me connecter</NavLink>}
-                            {/* <Link className="nav-link" to="/connexion#connect" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Me connecter</Link> */}
-                            {/* </NavItem> */}
-
-
-
                         </Nav>
                     </Collapse>
                 </Navbar>

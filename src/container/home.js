@@ -108,7 +108,7 @@ class Home extends React.Component {
 
                         </div>
                     </div>
-                    <p className="text-center"><button className="btn-zot"><Link to="/menus#menu-page" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Découvrez les menus <br /> de nos chefs</Link></button></p>
+                    <p className="text-center"><button style={{ height: 'auto' }} className="btn-zot"><Link to="/menus#menu-page" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Découvrez les menus <br /> de nos chefs</Link></button></p>
                 </div>
                 <div className="user-comment-home">
                     <h3 className="text-center">Les avis de nos utilisateurs</h3>
