@@ -89,7 +89,7 @@ class Login extends React.Component {
                         </form>
                     </ModalBody>
                     <ModalFooter>
-                        <Link className="nav-link" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })} onClick={() => this.props.toggleModal()} to="/connexion#connect" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Pas encore de compte ?</Link>
+                        <Link className="nav-link" scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'start' })} onClick={() => this.props.toggleModal()} to="/connexion#connect" >Pas encore de compte ?</Link>
                     </ModalFooter>
                 </Modal>
             </div>

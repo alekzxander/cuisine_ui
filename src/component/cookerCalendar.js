@@ -44,11 +44,7 @@ class CookerCalendar extends React.Component {
         })
     }
     render() {
-        console.log(this.props.cooker)
-        const dateTest = new Date('2018-11-13T12:00:00+04:00');
-        const selectDate = moment(dateTest)
         return (<div className="calendar-cooker">
-
             <SingleDatePicker
                 onDateChange={this.handleDateChange}
                 focused={this.state.calendarFocused}

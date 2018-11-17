@@ -80,11 +80,10 @@ export const login = (email, password, history) => {
                     token: resLoger.data.token,
                     type: resLoger.data.type,
                     presentation: resLoger.data.logCooker.presentation,
-                    dates: resLoger.data.logCooker.dates,
+                    dates: resLoger.data.logCooker.date_bookings,
                     picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resLoger.data.logCooker.id}`)
                 };
                 history.replace('/')
-                const localLogin = localStorage
                 dispatch({
                     type: ActionType.REGISTER_COOKER,
                     payload: cooker
@@ -340,7 +339,6 @@ export const menuByCooker = (id) => {
     }
 };
 export const createMenu = (token, title, start, dish, draft, price, dessert, picture, type) => {
-    console.log(type, 'CREATE NEW MENU')
     return async dispatch => {
         const data = JSON.stringify({
             title,
@@ -354,7 +352,6 @@ export const createMenu = (token, title, start, dish, draft, price, dessert, pic
         let formData = new FormData();
         formData.append('picture', picture);
         formData.set('data', data);
-
         const config = {
             headers: {
                 'authorization': token,
@@ -362,11 +359,14 @@ export const createMenu = (token, title, start, dish, draft, price, dessert, pic
             }
         }
         const menu = await axios.post(`/menu`, formData, config);
-        console.log(menu.data, 'new menu')
-        menu.data.createMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.createMenu.id}`);
+        const getType = await axios.get(`/menu_type/${menu.data.newMenu.id}`);
+        console.log(getType, 'type of this menu')
+        menu.data.newMenu.type_has_menus = getType.data.types;
+        menu.data.newMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.newMenu.id}`);
+        console.log(menu.data.newMenu, 'after add type and picture')
         dispatch({
             type: ActionType.CREATE_MENU,
-            payload: menu.data.createMenu
+            payload: menu.data.newMenu
         });
     }
 }
@@ -399,7 +399,6 @@ export const getMenu = (id) => {
 }
 
 export const updateMenu = (token, id, title, start, dish, draft, price, dessert, picture, type) => {
-    console.log(type, 'type of menu !!!')
     return async dispatch => {
         const data = JSON.stringify({
             title,
@@ -422,7 +421,9 @@ export const updateMenu = (token, id, title, start, dish, draft, price, dessert,
         const resMenu = await axios.put(`/menu/${id}`, formData, config);
         if (resMenu.status === 200) {
             const menu = resMenu.data.menu;
-            console.log(menu)
+            const getTypes = await axios.get(`/menu_type/${menu.id}`);
+            menu.type_has_menus = getTypes.data.types;
+            console.log(menu, 'after update')
             menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${id}`);
             dispatch({
                 type: ActionType.UPDATE_MENU,

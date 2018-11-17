@@ -22,6 +22,7 @@ class UpdateMenu extends React.Component {
             file: null,
             types: [],
             collapse: false,
+            boxSelected: []
         }
         this.toggle = this.toggle.bind(this);
     }
@@ -62,6 +63,18 @@ class UpdateMenu extends React.Component {
             [e.target.name]: e.target.value
         })
     }
+    handleChangeBox = async () => {
+        const getBox = [];
+        const selectBox = document.querySelectorAll('.container-check input');
+        selectBox.forEach((box) => {
+            if (box.checked) {
+                getBox.push(box.id)
+            }
+        });
+        await this.setState({
+            boxSelected: getBox
+        });
+    }
     handleSubmit(event) {
         const { start, dish, dessert, title, price } = event.target;
         event.preventDefault();
@@ -76,7 +89,7 @@ class UpdateMenu extends React.Component {
             price.value,
             dessert.value,
             this.state.file,
-            this.state.types);
+            this.state.boxSelected);
         return false
     }
     getTypes(types) {
@@ -110,7 +123,6 @@ class UpdateMenu extends React.Component {
     }
     render() {
         const { title, start, dish, dessert, price, draftCase, preview, file, picture, typeSelected } = this.state;
-        console.log(this.props.menuId)
         return (<div className="form-menu">
             <h5 className="text-center">Ajouter un menu</h5>
             <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)} >
@@ -183,7 +195,8 @@ class UpdateMenu extends React.Component {
                     <div className="row">
                         <Types
                             selected={typeSelected}
-                            handleChange={(box) => this.getTypes(box)}
+                            handleChangeBox={this.handleChangeBox}
+
                         />
                     </div>
                 </Collapse>

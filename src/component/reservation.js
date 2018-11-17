@@ -15,7 +15,6 @@ class Reservation extends React.Component {
     handleReservation = (date) => {
         const user = this.props;
         if (user) {
-            console.log('user connect', user)
             if (user.user.type === 'user') {
                 this.setState({
                     sendReservation: false,
@@ -96,9 +95,8 @@ class Reservation extends React.Component {
     }
 }
 const verifyState = (state) => {
-
     if (state.menu && !state.menu.length) {
-        return state.menu.cooker.dates;
+        return state.menu.cooker.date_bookings;
     } else {
         return [];
     }

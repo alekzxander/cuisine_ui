@@ -103,6 +103,7 @@ class MenuSelected extends React.Component {
         })
     }
     render() {
+        console.log(this.props.menu)
         return (
             <div className="container" id="menu-selected">
                 <h1 className="text-center">Reservez un menu</h1>
