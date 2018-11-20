@@ -69,7 +69,6 @@ export const login = (email, password, history) => {
             password
         };
         const resLoger = await axios.post('http://localhost:3001/login', loger);
-        console.log(resLoger.data.logCooker)
         try {
             if (resLoger.data.type === 'cooker') {
                 const cooker = {
@@ -89,6 +88,7 @@ export const login = (email, password, history) => {
                     payload: cooker
                 });
             } else if (resLoger.data.type === 'user') {
+                console.log(resLoger.data)
                 const user = {
                     id: resLoger.data.logUser.id,
                     firstname: resLoger.data.logUser.first_name,
@@ -97,6 +97,7 @@ export const login = (email, password, history) => {
                     phone: resLoger.data.logUser.phone,
                     token: resLoger.data.token,
                     type: resLoger.data.type,
+                    reservations: resLoger.data.logUser.reservations,
                     picture: await getBase64(`http://localhost:3001/image/${'User'}/${resLoger.data.logUser.id}`)
                 }
                 history.replace('/')
@@ -230,7 +231,7 @@ export const filterMenu = (filters) => {
             for (let i = 0; i < queryFilters.length; i++) {
                 query += queryFilters[i];
             }
-            console.log(`http://localhost:3001/menus/${query}/`)
+
             const resMenus = await axios.get(`http://localhost:3001/menus/${query}`);
             const getImage = resMenus.data.menus.map(async (menu) => {
                 return menu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.id}`)
@@ -281,6 +282,7 @@ export const updateUserProfil = (id, token, firstname, lastname, image, adresse,
             phone: user.phone,
             token,
             type: userUpdated.data.type,
+            reservations: user.reservations,
             picture: await getBase64(`http://localhost:3001/image/${'User'}/${user.id}`)
         }
         dispatch({
@@ -453,5 +455,59 @@ export const dateBooking = (date, token) => {
             console.log('error booking date')
         }
 
+    }
+}
+export const addComment = (token, comment, note, menuId, reservationId) => {
+    return async dispatch => {
+        const config = {
+            headers: {
+                'authorization': token,
+            }
+        }
+        const data = {
+            comment,
+            note
+        };
+        const resComment = await axios.post(`/comment/${menuId}/${reservationId}`, data, config);
+        console.log(resComment)
+        if (resComment.status === 200) {
+            dispatch({
+                type: ActionType.ADD_COMMENT,
+                payload: reservationId
+            })
+        } else {
+            console.log('error comment')
+        }
+    }
+}
+export const bookMenu = (token, dateId, menuId, nbGuest) => {
+    console.log(token, dateId, menuId, nbGuest)
+    return async dispatch => {
+        const config = {
+            headers: {
+                'authorization': token,
+            }
+        };
+        const data = {
+            nbGuest
+        };
+        const resReservation = await axios.post(`/reservation/${menuId}/${dateId}`, data, config);
+        const reservationData = resReservation.data.reservation;
+        const resDate = await axios.get(`/date/${reservationData.date_booking_id}`);
+        const resMenu = await axios.get(`/menu/${reservationData.menu_id}`);
+        const reservation = {
+            nb_guest: reservationData.nb_guest,
+            commented: false,
+            id: reservationData.id,
+            date_booking: resDate.data.booking,
+            menu: resMenu.data.menu
+        };
+        console.log(reservation)
+        if (resReservation.status === 200) {
+            dispatch({
+                type: ActionType.BOOKING_MENU,
+                payload: reservation
+            });
+        }
     }
 }

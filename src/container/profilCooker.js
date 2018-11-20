@@ -98,7 +98,7 @@ class ProfilCooker extends React.Component {
     }
     render() {
         const { contextMenu } = this.state;
-        console.log(this.props.menus)
+        console.log(this.props.user)
         if (this.props.user.token) {
             return (
                 <div id="profil-cooker">

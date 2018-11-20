@@ -2,15 +2,25 @@ import React from 'react'
 import { SingleDatePicker } from 'react-dates';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { bookMenu } from '../action/indexAction';
 import moment from 'moment';
+
 class Reservation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selected: moment(new Date()),
             sendReservation: true,
-            dateSelected: {}
+            dateSelected: {},
+            totalPrice: 0,
+            guest: 2
         }
+    }
+    componentWillMount = async () => {
+        this.setState({
+            totalPrice: this.props.price,
+        });
     }
     handleReservation = (date) => {
         const user = this.props;
@@ -28,6 +38,14 @@ class Reservation extends React.Component {
             }
         }
     }
+    updatePrice = (e) => {
+        const guest = e.target.value;
+        console.log(guest)
+        this.setState({
+            totalPrice: this.props.price * guest,
+            guest
+        });
+    }
     handleDateChange = (date) => {
         this.setState({
             selected: date
@@ -42,6 +60,16 @@ class Reservation extends React.Component {
                 dateSelected: {}
             })
         }
+    }
+    bookingMenu = () => {
+        const { user, menu } = this.props;
+        const { guest } = this.state;
+        this.props.available.forEach((d) => {
+            if (moment(new Date(d.date)).isSame(this.state.selected)) {
+                this.props.bookMenu(user.token, d.id, menu.id, guest)
+            }
+        });
+
     }
     render() {
         let availableDates = [];
@@ -66,7 +94,7 @@ class Reservation extends React.Component {
                     </div>
                     <div className="guest">
                         <p>Nombre de convives</p>
-                        <select id="monselect" onChange={this.props.handleGuest}>
+                        <select id="monselect" onChange={this.updatePrice}>
                             <option value="2">2 personne</option>
                             <option value="4">4 personnes</option>
                             <option value="6">6 personnes</option>
@@ -81,11 +109,11 @@ class Reservation extends React.Component {
                     </div>
                     <div className="total-price">
                         <p>Total</p>
-                        <p><strong>{this.props.totalPrice}€</strong></p>
+                        <p><strong>{this.state.totalPrice}€</strong></p>
                     </div>
 
                     <p className="text-center">
-                        <button className="btn-zot" disabled={this.state.sendReservation} >
+                        <button className="btn-zot" onClick={() => this.bookingMenu()} disabled={this.state.sendReservation} >
                             {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation
                     </button>
                     </p>
@@ -104,11 +132,14 @@ const verifyState = (state) => {
 const mapStateToProps = (state) => {
     return {
         available: verifyState(state),
-        user: state.user
+        user: state.user,
     }
-
+}
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        bookMenu
+    }, dispatch);
 }
 
 
-
-export default connect(mapStateToProps, null)(Reservation);
+export default connect(mapStateToProps, mapDispatchToProps)(Reservation);

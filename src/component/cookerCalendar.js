@@ -4,15 +4,18 @@ import { SingleDatePicker } from 'react-dates';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dateBooking } from '../action/indexAction';
-
 import moment from 'moment';
+import { Table } from 'reactstrap';
+import reservation from './reservation'
+
 class CookerCalendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selected: [],
             dates: [],
-            focused: ''
+            focused: '',
+            datesBooking: []
         }
 
     }
@@ -26,25 +29,68 @@ class CookerCalendar extends React.Component {
     componentDidMount = () => {
         const { cooker } = this.props;
         if (cooker) {
-            const dates = cooker.dates.map((book) => {
-                return moment(new Date(book.date))
-            });
+            const dates = cooker.dates.filter(book => !book.book).map(book => moment(new Date(book.date)));
+            const datesBooking = cooker.dates.filter(book => book.book).map(book => moment(new Date(book.date)));
             this.setState({
-                dates
+                dates,
+                datesBooking: datesBooking
             });
         }
     }
     handleDateChange = (date) => {
-        const isPresent = this.state.dates.find(d => date.isSame(d))
+        const isPresent = this.state.dates.find(d => date.isSame(d));
+
+        const { dates } = this.state;
         this.setState({
-            dates: this.state.dates
+            dates: dates
                 .filter(d => isPresent ? !date.isSame(d) : true)
                 .concat(isPresent ? [] : [date])
-                .sort((d1, d2) => d1.isBefore(d2) ? -1 : 1)
-        })
+                .sort((d1, d2) => {
+                    if (d1) {
+
+                        return d1.isBefore(d2) ? -1 : 1
+                    }
+                    return '';
+                })
+        });
     }
     render() {
+
+        const reservations = this.props.cooker.dates.filter(date => date.reservations.length > 0).map(reservation => reservation.reservations[0]);
+        const ReservationsList = reservations.map((reservation) => {
+            return (
+                <tr>
+                    <th scope="row">{reservation.menu.title}</th>
+                    <td>{moment(reservation.date_booking.date).format("DD-MM-YY")}</td>
+                    <td>{reservation.nb_guest}</td>
+                    <td>{reservation.user.adresse}</td>
+                    <td>{reservation.user.phone}</td>
+                    <td>{reservation.user.last_name}</td>
+                    <td>{reservation.user.first_name}</td>
+                    <td>{reservation.menu.price * reservation.nb_guest} €</td>
+                </tr>
+            )
+        })
         return (<div className="calendar-cooker">
+            <h3>mon planning</h3>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Menu</th>
+                        <th>Date</th>
+                        <th>Convives</th>
+                        <th>Adresse</th>
+                        <th>Telephone</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Gain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {ReservationsList}
+                </tbody>
+            </Table>
+            <h3>organisé mes dates</h3>
             <SingleDatePicker
                 onDateChange={this.handleDateChange}
                 focused={this.state.calendarFocused}
@@ -56,8 +102,9 @@ class CookerCalendar extends React.Component {
             <p className="text-center">
                 <button className="btn-zot" onClick={() => this.registerDate()}>
                     Reserver ces dates
-                                    </button>
+                </button>
             </p>
+
         </div>);
     }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateUserProfil } from '../action/indexAction';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class FormUser extends React.Component {
     constructor(props) {
         super(props);
@@ -59,15 +59,14 @@ class FormUser extends React.Component {
             <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)} >
                 <div className="form-group image-content">
                     {this.state.file ? <img src={preview} className="image-user" alt="avatar" /> : <img src={"data:image/jpg;base64," + picture} alt="avatar" className="image-user" />}
-                    <label className="picture" htmlFor="avatar">Changer de photo
+                    <label className="picture" htmlFor="avatar"><FontAwesomeIcon icon="plus-circle" /></label>
                     <input
-                            type="file"
-                            name="avatar"
-                            className="form-control"
-                            id="avatar"
-                            onChange={(e) => this.handleChange(e)}
-                        />
-                    </label>
+                        type="file"
+                        name="avatar"
+                        className="form-control picture-file"
+                        id="avatar"
+                        onChange={(e) => this.handleChange(e)}
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="firstname">Prenom</label>

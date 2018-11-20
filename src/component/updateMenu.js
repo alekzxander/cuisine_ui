@@ -39,7 +39,6 @@ class UpdateMenu extends React.Component {
                 return '';
             });
             const menu = menuSelected[0];
-            console.log(menu)
             menu.type_has_menus.forEach((type) => {
                 currentTypes.push(type.type_id);
 

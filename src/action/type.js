@@ -16,7 +16,9 @@ const ActionType = {
     REMOVE_MENU: 'REMOVE_MENU',
     GET_MENU: 'GET_MENU',
     UPDATE_MENU: 'UPDATE_MENU',
-    BOOKING_DATE: 'BOOKING_DATE'
+    BOOKING_DATE: 'BOOKING_DATE',
+    ADD_COMMENT: 'ADD_COMMENT',
+    BOOKING_MENU: 'BOOKING_MENU'
 };
 
 export default ActionType;

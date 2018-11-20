@@ -11,13 +11,12 @@ class MenuSelected extends React.Component {
         this.state = {
             comment: 3,
             price: 0,
-            totalPrice: 0,
             date: '',
             checkMenu: true,
             availableDate: ''
         }
-        this.updatePrice = this.updatePrice.bind(this);
-        this.commandMenu = this.commandMenu.bind(this);
+        // this.updatePrice = this.updatePrice.bind(this);
+        // this.commandMenu = this.commandMenu.bind(this);
     }
     componentWillMount = async () => {
         await this.props.selectMenu(this.props.match.params.id);
@@ -82,28 +81,22 @@ class MenuSelected extends React.Component {
             )
         }
     }
-    commandMenu = (e) => {
-        if (this.props.user) {
-            if (this.props.user.type === 'user') {
-                this.setState({
-                    checkMenu: false
-                })
-            }
-        }
-    }
+    // commandMenu = (e) => {
+    //     if (this.props.user) {
+    //         if (this.props.user.type === 'user') {
+    //             this.setState({
+    //                 checkMenu: false
+    //             })
+    //         }
+    //     }
+    // }
     moreComments = () => {
         this.setState({
             comment: this.state.comment + 3
         })
     }
-    updatePrice = (e) => {
-        const guess = e.target.value;
-        this.setState({
-            totalPrice: this.state.price * guess
-        })
-    }
+
     render() {
-        console.log(this.props.menu)
         return (
             <div className="container" id="menu-selected">
                 <h1 className="text-center">Reservez un menu</h1>
@@ -121,9 +114,8 @@ class MenuSelected extends React.Component {
                     </div>
                     <div className="col-lg-4">
                         <Reservation
-                            handleGuest={this.updatePrice}
                             price={this.state.price}
-                            totalPrice={this.state.totalPrice}
+                            menu={this.props.menu}
                         />
                     </div>
                 </div>

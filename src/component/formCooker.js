@@ -93,7 +93,6 @@ class FormCooker extends React.Component {
                     <textarea className="form-control" rows="10" value={presentation} name="presentation" id="presentation" >
                         {presentation}
                     </textarea>
-                    {/* <textarea name="" id="" cols="30" rows="10"></textarea> */}
                 </div>
                 <p className="text-center">   <button type="submit" className="btn-submit">
                     Sauvegarder mes modifications

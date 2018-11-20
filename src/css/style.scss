@@ -141,9 +141,72 @@ body {
       }
     }
   }
+  .modal-title{
+    color : $primary;
+  }
+  .modal-body {
+    text-align: center;
+    h5{
+      color : $black;
+    }
+    p{
+      color : $text;
+    }
+
+    .separator{
+      height: 1.5px;
+      width: 18%;
+      margin: 0 auto;
+      background : $text;
+      margin-top: $middleMarge;
+      margin-bottom: $middleMarge;
+    }
+   }
   .profil-user {
    margin-top: $middleMarge;
    margin-bottom: $middleMarge;
+   h2 {
+     margin-bottom: $middleMarge;
+   }
+   h3 {
+     margin-bottom: $middleMarge;
+   }
+  
+   .reservation-card {
+     background: white;
+     margin: 0 auto;
+     border-radius: 6px;
+     padding: 15px;
+     -webkit-box-shadow: 0 4px 13px -4px #777;
+     -moz-box-shadow: 0 4px 13px -4px #777;
+          box-shadow: 0 4px 13px -4px #777;
+    margin-top: $littleMarge;
+     .details {
+       color : #0084FF;
+       cursor: pointer;
+     }
+     h5,p{
+       text-align: center;
+     }
+   }
+   .comment-form {
+     label {
+      display: block;
+      text-align: center;
+      color: $text;
+     }
+     textarea {
+       width: 70%;
+       height: 90px;
+       resize: none;
+       margin: 0 auto;
+     }
+     select {
+       width: 10%;
+       margin: 0 auto;
+           }
+   }
+   
   }
   .selector-control {
   padding-bottom: $littleMarge;
@@ -152,6 +215,18 @@ body {
   .calendar-cooker {
     button {
       margin-top: $littleMarge;
+    }
+    h3 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .table {
+     th{
+      font-size: 14px;
+     } 
+     td{
+       font-size: 10px;
+     }
     }
   }
   .user-card-form {
