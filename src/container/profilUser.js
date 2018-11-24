@@ -17,17 +17,18 @@ class ProfilUser extends React.Component {
         )
     }
     userFind(user) {
-        console.log(user)
         return (
             <div className="profil-user container">
-                <h2 className="text-center">Mon espace perso</h2>
                 <div className="row">
-                    <div className="user-card-form col-md-4">
-                        <FormUser />
+                    <div className="col-md-4">
+                        <h2>Mon espace perso</h2>
+                        <div className="user-card-form">
+                            <FormUser />
+                        </div>
                     </div>
                     <div className="col-md-8">
                         <div className="user-reservation">
-                            <h3 className="text-center">Vos réservations</h3>
+                            <h2 className="text-center">Vos réservations</h2>
                             <UserReservation
                                 reservations={user.reservations}
                                 token={user.token}

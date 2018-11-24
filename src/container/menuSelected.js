@@ -10,10 +10,8 @@ class MenuSelected extends React.Component {
         super(props);
         this.state = {
             comment: 3,
-            price: 0,
             date: '',
             checkMenu: true,
-            availableDate: ''
         }
         // this.updatePrice = this.updatePrice.bind(this);
         // this.commandMenu = this.commandMenu.bind(this);
@@ -22,10 +20,10 @@ class MenuSelected extends React.Component {
         await this.props.selectMenu(this.props.match.params.id);
         const { menu } = this.props;
         if (menu) {
+            console.log(menu.price)
             this.setState({
                 price: menu.price,
                 totalPrice: menu.price,
-                availableDate: menu.cooker.dates
             })
         }
     }
@@ -81,15 +79,7 @@ class MenuSelected extends React.Component {
             )
         }
     }
-    // commandMenu = (e) => {
-    //     if (this.props.user) {
-    //         if (this.props.user.type === 'user') {
-    //             this.setState({
-    //                 checkMenu: false
-    //             })
-    //         }
-    //     }
-    // }
+
     moreComments = () => {
         this.setState({
             comment: this.state.comment + 3

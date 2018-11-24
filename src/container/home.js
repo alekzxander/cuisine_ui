@@ -87,7 +87,6 @@ class Home extends React.Component {
     render() {
         return (<div className="home-page">
             <h3 className="text-center">Comment ça marche ?</h3>
-
             <div className="container">
                 <div className="picto-work">
                     <div className="row">
@@ -134,7 +133,7 @@ const mapStateToProps = (state) => {
     return {
         user: state.user,
         comments: state.comment,
-        menus: state.menu
+        menus: state.menu,
     }
 }
 const mapDispatchToProps = (dispatch) => {

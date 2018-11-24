@@ -13,16 +13,17 @@ import ProfilCooker from './profilCooker';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDown, faPlusCircle, faCalendarAlt, faLock } from '@fortawesome/free-solid-svg-icons'
 import 'react-dates/lib/css/_datepicker.css';
-
+import { Snackbar } from 'react-redux-snackbar';
 library.add(faAngleDown, faPlusCircle, faCalendarAlt, faLock)
 
 class App extends Component {
 
   render() {
-
     return (
       <div>
         < Header />
+
+        <Snackbar />
         <Switch >
           <Route path="/profil-cooker/:id" component={ProfilCooker} />
           <Route path="/profil-user" component={ProfilUser} />

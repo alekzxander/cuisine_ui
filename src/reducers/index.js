@@ -4,6 +4,8 @@ import commentReducer from './commentReducer';
 import menuReducer from './menuReducer';
 import modalReducer from './modalReducer';
 import cookerReducer from './cookerReducer';
+import notificationReducer from './notificationReducer';
+import { snackbarReducer } from 'react-redux-snackbar'; // Import it
 import { reducer as formReducer } from 'redux-form';
 const rootReducer = combineReducers({
   user: userReducer,
@@ -11,7 +13,9 @@ const rootReducer = combineReducers({
   comment: commentReducer,
   menu: menuReducer,
   modal: modalReducer,
-  cooker: cookerReducer
+  cooker: cookerReducer,
+  notification: notificationReducer,
+  snackbar: snackbarReducer
 });
 
 export default rootReducer;

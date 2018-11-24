@@ -3,7 +3,8 @@ import { SingleDatePicker } from 'react-dates';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { bookMenu } from '../action/indexAction';
+import { bookMenu, toggleModal } from '../action/indexAction';
+import { withRouter } from "react-router";
 import moment from 'moment';
 
 class Reservation extends React.Component {
@@ -14,14 +15,12 @@ class Reservation extends React.Component {
             sendReservation: true,
             dateSelected: {},
             totalPrice: 0,
-            guest: 2
+            guest: 0,
+            dateInfo: 'Choisissez une date disponible',
+            guestInfo: ''
         }
     }
-    componentWillMount = async () => {
-        this.setState({
-            totalPrice: this.props.price,
-        });
-    }
+
     handleReservation = (date) => {
         const user = this.props;
         if (user) {
@@ -40,10 +39,10 @@ class Reservation extends React.Component {
     }
     updatePrice = (e) => {
         const guest = e.target.value;
-        console.log(guest)
         this.setState({
             totalPrice: this.props.price * guest,
-            guest
+            guest,
+            guestInfo: ''
         });
     }
     handleDateChange = (date) => {
@@ -54,21 +53,38 @@ class Reservation extends React.Component {
         const verifyDate = avaibleDates.filter(day => date.isSame(day, 'day'))
         if (verifyDate.length > 0) {
             this.handleReservation(verifyDate[0]);
+            this.setState({
+                dateInfo: ''
+            })
         } else {
             this.setState({
                 sendReservation: true,
-                dateSelected: {}
+                dateSelected: {},
+                dateInfo: 'Choisissez une date disponible'
             })
         }
     }
     bookingMenu = () => {
         const { user, menu } = this.props;
         const { guest } = this.state;
-        this.props.available.forEach((d) => {
-            if (moment(new Date(d.date)).isSame(this.state.selected)) {
-                this.props.bookMenu(user.token, d.id, menu.id, guest)
+        if (guest > 0) {
+            if (user.token) {
+                this.props.available.forEach((d) => {
+                    if (moment(new Date(d.date)).isSame(this.state.selected)) {
+                        console.log(d, menu)
+                        this.props.bookMenu(user.token, d.id, menu.id, guest, this.props.history)
+                    }
+                });
+            } else {
+                this.props.toggleModal()
             }
-        });
+        } else {
+            this.setState({
+                guestInfo: 'Choisissez un nombre de convive'
+            })
+        }
+
+
 
     }
     render() {
@@ -92,9 +108,11 @@ class Reservation extends React.Component {
                             customInputIcon={<FontAwesomeIcon icon="calendar-alt" />}
                         />
                     </div>
+                    <p className="info">{this.state.dateInfo}</p>
                     <div className="guest">
                         <p>Nombre de convives</p>
                         <select id="monselect" onChange={this.updatePrice}>
+                            <option value="0" selected>Choisissez</option>
                             <option value="2">2 personne</option>
                             <option value="4">4 personnes</option>
                             <option value="6">6 personnes</option>
@@ -103,6 +121,7 @@ class Reservation extends React.Component {
                             <option value="12">12 personnes</option>
                         </select>
                     </div>
+                    <p className="info">{this.state.guestInfo}</p>
                     <div className="price">
                         <p>Prix unitaire</p>
                         <p><strong>{this.props.price}€</strong></p>
@@ -113,7 +132,7 @@ class Reservation extends React.Component {
                     </div>
 
                     <p className="text-center">
-                        <button className="btn-zot" onClick={() => this.bookingMenu()} disabled={this.state.sendReservation} >
+                        <button className="btn-zot" onClick={() => this.bookingMenu()} >
                             {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation
                     </button>
                     </p>
@@ -137,9 +156,10 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        bookMenu
+        bookMenu,
+        toggleModal
     }, dispatch);
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reservation);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Reservation));

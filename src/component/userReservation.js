@@ -2,7 +2,6 @@ import React from 'react'
 import moment from 'moment';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { HashLink as Link } from 'react-router-hash-link';
 import { addComment } from '../action/indexAction';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
@@ -12,25 +11,35 @@ class UserReservation extends React.Component {
         this.state = {
             commentForm: false,
             menuId: '',
-            note: '',
+            note: '1',
             comment: '',
-            reservationId: ''
+            reservationId: '',
+            textLengthInfo: 0
         }
         this.toggle = this.toggle.bind(this);
+        this.handleText = this.handleText.bind(this);
     }
     handleForm(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
+    handleText(e) {
+        this.setState({
+            textLengthInfo: e.target.value.length
+        });
+    }
     handleSubmit(event) {
         const { comment, note, menuId, reservationId } = this.state;
         this.props.addComment(this.props.token, comment, note, menuId, reservationId);
         this.setState({
-            commentForm: false,
             comment: '',
             note: ''
         });
+        setTimeout(function () {
+            this.setState({ commentForm: false });
+        }.bind(this), 500)
+
         event.preventDefault();
         return false
     }
@@ -41,7 +50,6 @@ class UserReservation extends React.Component {
     }
     displayReservation() {
         const { reservations } = this.props;
-        console.log(reservations)
         return reservations.map((reservation, i) => {
             return (
                 <div className="col-lg-6" key={i}>
@@ -74,14 +82,15 @@ class UserReservation extends React.Component {
         })
     }
     addComment() {
-        const { comment } = this.state;
+        const { comment, textLengthInfo } = this.state;
         return (
             <div className="col-md-12 comment-form">
                 <button className="btn-zot" onClick={() => this.setState({ commentForm: false })}>Retour</button>
                 <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)}>
                     <div className="form-group">
-                        <label htmlFor="comment">Dites nous ce que vous avez pensé de cette prestation</label>
-                        <textarea name="comment" maxLength='150' id="comment" value={comment} className="form-control"></textarea>
+                        <label htmlFor="comment">Dites nous ce que vous avez pensé de cette prestation (max 130 caractères)</label>
+                        <textarea onChange={this.handleText} required name="comment" maxLength='130' id="comment" value={comment} className="form-control"></textarea>
+                        <p className="infoLength">{textLengthInfo} / 130</p>
                     </div>
                     <div className="form-group">
                         <label htmlFor="note">Note</label>

@@ -101,6 +101,7 @@ class FormMenu extends React.Component {
                         name="picture"
                         className="form-control"
                         onChange={(e) => this.handleChange(e)}
+                        required
                     />
                 </div>
                 {file ? <p className="text-center"><img src={preview} className="preview-menu" alt="aperçu du menu" /></p> : <p>Aperçu de l'image</p>}
@@ -111,6 +112,7 @@ class FormMenu extends React.Component {
                         className="form-control"
                         value={title}
                         maxLength="75"
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -121,6 +123,7 @@ class FormMenu extends React.Component {
                         value={start}
                         maxLength="155"
                         rows="3"
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -131,6 +134,7 @@ class FormMenu extends React.Component {
                         value={dish}
                         maxLength="155"
                         rows="3"
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -141,6 +145,7 @@ class FormMenu extends React.Component {
                         value={dessert}
                         maxLength="155"
                         rows="3"
+                        required
                     />
                 </div>
                 <div className="menu-price">
@@ -150,6 +155,7 @@ class FormMenu extends React.Component {
                             className="form-control"
                             value={price}
                             name="price"
+                            required
                         />
                     </div>
                     <div className="form-group draft-menu">

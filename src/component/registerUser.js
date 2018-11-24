@@ -18,13 +18,7 @@ const validate = values => {
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = 'Invalid email address'
     }
-    if (!values.age) {
-        errors.age = 'Required'
-    } else if (isNaN(Number(values.age))) {
-        errors.age = 'Must be a number'
-    } else if (Number(values.age) < 18) {
-        errors.age = 'Sorry, you must be at least 18 years old'
-    }
+
     return errors
 }
 
@@ -44,7 +38,7 @@ const renderField = ({
   }) => (
         <div>
             <div>
-                <input {...input} className="form-control" placeholder={label} type={type} />
+                <input {...input} className="form-control" placeholder={label} type={type} required />
                 {touched &&
                     ((error && <span>{error}</span>) ||
                         (warning && <span>{warning}</span>))}

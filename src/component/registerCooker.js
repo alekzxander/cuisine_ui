@@ -36,7 +36,7 @@ const renderField = ({
         <div>
             {/* <label >{label}</label> */}
             <div>
-                <input {...input} className="form-control" placeholder={label} type={type} />
+                <input {...input} className="form-control" placeholder={label} type={type} required />
                 {touched &&
                     ((error && <span>{error}</span>) ||
                         (warning && <span>{warning}</span>))}

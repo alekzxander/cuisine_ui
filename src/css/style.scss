@@ -13,7 +13,10 @@ body {
     background: #EFF2F5 !important;
    font-family: 'Lato', sans-serif;
   }
-  
+  .navbar-light .navbar-brand {
+    color: rgba(0,0,0,.5);
+    font-size: 17px;
+}
   .home-page {
     padding-top: $middleMarge;
     h3 {
@@ -167,6 +170,8 @@ body {
    margin-bottom: $middleMarge;
    h2 {
      margin-bottom: $middleMarge;
+     text-transform: uppercase;
+     font-size: 22px;
    }
    h3 {
      margin-bottom: $middleMarge;
@@ -180,7 +185,7 @@ body {
      -webkit-box-shadow: 0 4px 13px -4px #777;
      -moz-box-shadow: 0 4px 13px -4px #777;
           box-shadow: 0 4px 13px -4px #777;
-    margin-top: $littleMarge;
+    margin-bottom: $littleMarge;
      .details {
        color : #0084FF;
        cursor: pointer;
@@ -194,6 +199,11 @@ body {
       display: block;
       text-align: center;
       color: $text;
+     }
+     .infoLength {
+      position: absolute;
+      right: 17%;
+      bottom: 45%;
      }
      textarea {
        width: 70%;
@@ -216,9 +226,15 @@ body {
     button {
       margin-top: $littleMarge;
     }
-    h3 {
+    h4 {
       text-align: center;
       text-transform: uppercase;
+    }
+    .calendar {
+      display: flex;
+      button {
+        margin: 0 0 0 20px;
+      }
     }
     .table {
      th{
@@ -233,7 +249,7 @@ body {
     width: 100%;
     margin-bottom: $middleMarge;
     background: white;
-    padding-bottom: $middleMarge;
+    padding: $littleMarge;
     position: relative;
     .image-content {
       display: flex;
@@ -515,7 +531,7 @@ body {
       margin-top: 290px;
       .img-selected {
         position: absolute;
-        height: 300px;
+        height: 360px;
         width: 120%;
         left: -10%;
         z-index: -1;
@@ -585,6 +601,12 @@ body {
         text-transform: uppercase;
       }
     }
+    .info {
+      text-align: center;
+      color : $success !important;
+      font-size: 12px;
+      font-style: italic;
+    }
     .choice-guess {
       padding: $littleMarge;
       background: #222;
@@ -609,6 +631,10 @@ body {
         display: flex;
         justify-content :space-between;
         margin-bottom: $littleMarge;
+      }
+      .date-info {
+        text-align: center;
+        color : $primary;
       }
     }
   }

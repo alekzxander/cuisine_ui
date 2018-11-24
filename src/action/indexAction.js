@@ -1,5 +1,6 @@
 import axios from 'axios';
 import ActionType from './type';
+import { showSnack } from 'react-redux-snackbar';
 
 function getBase64(url) {
     return axios
@@ -20,19 +21,20 @@ export const registerUser = (firstname, lastname, email, adresse, phone, passwor
             password
         };
         const resUser = await axios.post('http://localhost:3001/profil-user', user);
-        try {
+        console.log(resUser)
+        if (resUser.status === 200) {
             history.replace('/')
             dispatch({
                 type: ActionType.REGISTER_USER,
                 payload: resUser.data
-            })
-        } catch (err) {
-            dispatch({
-                type: ActionType.ERROR_LOGIN,
-                payload: resUser.data
-            })
+            });
+            dispatch(showSnack('registerUser', {
+                label: resUser.data.message,
+                timeout: 7000,
+                type: ' success',
+                button: { label: `D'accord !` }
+            }));
         }
-
     }
 }
 
@@ -46,12 +48,27 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
         };
         const resCooker = await axios.post('http://localhost:3001/profil-cooker', cooker);
         try {
-            console.log(resCooker);
+            const cooker = {
+                email: resCooker.data.logCooker.email,
+                firstname: resCooker.data.logCooker.first_name,
+                lastname: resCooker.data.logCooker.last_name,
+                id: resCooker.data.logCooker.id,
+                token: resCooker.data.token,
+                type: resCooker.data.type,
+                presentation: resCooker.data.logCooker.presentation,
+                dates: resCooker.data.logCooker.date_bookings,
+                picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resCooker.data.logCooker.id}`)
+            };
             history.replace('/')
             dispatch({
                 type: ActionType.REGISTER_COOKER,
-                payload: resCooker.data
-            })
+                payload: cooker
+            });
+            dispatch(showSnack('registerCooker', {
+                label: `Votre inscription à était enregistrer avec succes, vous pouvez désormais avoir accés à votre profil !`,
+                timeout: 7000,
+                button: { label: `D'accord !` }
+            }));
         } catch (err) {
             dispatch({
                 type: ActionType.ERROR_LOGIN,
@@ -82,13 +99,17 @@ export const login = (email, password, history) => {
                     dates: resLoger.data.logCooker.date_bookings,
                     picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resLoger.data.logCooker.id}`)
                 };
-                history.replace('/')
+                dispatch(showSnack('loginCooker', {
+                    label: `Bon retour parmis nous chef ${resLoger.data.logCooker.first_name} !`,
+                    timeout: 7000,
+                    type: ' success',
+                    button: { label: `D'accord !` }
+                }));
                 dispatch({
                     type: ActionType.REGISTER_COOKER,
                     payload: cooker
                 });
             } else if (resLoger.data.type === 'user') {
-                console.log(resLoger.data)
                 const user = {
                     id: resLoger.data.logUser.id,
                     firstname: resLoger.data.logUser.first_name,
@@ -99,20 +120,28 @@ export const login = (email, password, history) => {
                     type: resLoger.data.type,
                     reservations: resLoger.data.logUser.reservations,
                     picture: await getBase64(`http://localhost:3001/image/${'User'}/${resLoger.data.logUser.id}`)
-                }
-                history.replace('/')
+                };
+                dispatch(showSnack('loginUser', {
+                    label: `Bon retour parmis nous ${resLoger.data.logUser.first_name} !`,
+                    timeout: 7000,
+                    type: 'success',
+                    button: { label: `D'accord !` }
+                }));
                 dispatch({
                     type: ActionType.REGISTER_USER,
                     payload: user
-                })
-            } else {
-                dispatch({
-                    type: ActionType.ERROR_LOGIN,
-                    payload: resLoger.data
-                })
+                });
+            } else if (resLoger.data.type === 'error') {
+                dispatch(showSnack('errorLogin', {
+                    label: `Le mail ou le mot de passe est incorrect !`,
+                    timeout: 7000,
+                    type: 'error',
+                    button: { label: `D'accord !` }
+                }));
             }
         } catch (err) {
-            dispatch(err)
+            console.log('ERROR CATCHING')
+
         }
     }
 }
@@ -288,7 +317,13 @@ export const updateUserProfil = (id, token, firstname, lastname, image, adresse,
         dispatch({
             type: ActionType.UPDATE_USER,
             payload: update
-        })
+        });
+        dispatch(showSnack('updateUser', {
+            label: `Votre profil à était mis à jour!`,
+            timeout: 7000,
+            type: 'success',
+            button: { label: `D'accord !` }
+        }));
     }
 };
 export const updateCookerProfil = (id, token, firstname, lastname, image, presentation) => {
@@ -317,13 +352,19 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
             presentation: cooker.presentation,
             token,
             type: cookerUpdated.data.type,
-            dates: cooker.dates,
+            dates: cooker.date_bookings,
             picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
         }
         dispatch({
             type: ActionType.UPDATE_COOKER,
             payload: update
-        })
+        });
+        dispatch(showSnack('updateCooker', {
+            label: `Votre profil à était mis à jour!`,
+            timeout: 7000,
+            type: 'success',
+            button: { label: `D'accord !` }
+        }));
     }
 };
 
@@ -474,13 +515,19 @@ export const addComment = (token, comment, note, menuId, reservationId) => {
             dispatch({
                 type: ActionType.ADD_COMMENT,
                 payload: reservationId
-            })
+            });
+            dispatch(showSnack('addComment', {
+                label: `Merci pour vôtre commentaire !!`,
+                timeout: 7000,
+                type: 'success',
+                button: { label: `D'accord !` }
+            }));
         } else {
             console.log('error comment')
         }
     }
 }
-export const bookMenu = (token, dateId, menuId, nbGuest) => {
+export const bookMenu = (token, dateId, menuId, nbGuest, history) => {
     console.log(token, dateId, menuId, nbGuest)
     return async dispatch => {
         const config = {
@@ -502,8 +549,13 @@ export const bookMenu = (token, dateId, menuId, nbGuest) => {
             date_booking: resDate.data.booking,
             menu: resMenu.data.menu
         };
-        console.log(reservation)
         if (resReservation.status === 200) {
+            history.replace('/');
+            dispatch(showSnack('bookMenu', {
+                label: `Vôtre réservation à bien était enregistré, vous pouvez voir les détails de cette prestation dans vôtre profil !`,
+                timeout: 7000,
+                button: { label: `Merci !` }
+            }));
             dispatch({
                 type: ActionType.BOOKING_MENU,
                 payload: reservation

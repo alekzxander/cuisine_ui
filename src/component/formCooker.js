@@ -13,7 +13,8 @@ class FormCooker extends React.Component {
             lastname: '',
             id: '',
             picture: '',
-            preview: null
+            preview: null,
+            presentation: ''
         }
     }
     componentDidMount = () => {

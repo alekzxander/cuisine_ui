@@ -55,7 +55,6 @@ class CookerCalendar extends React.Component {
         });
     }
     render() {
-
         const reservations = this.props.cooker.dates.filter(date => date.reservations.length > 0).map(reservation => reservation.reservations[0]);
         const ReservationsList = reservations.map((reservation) => {
             return (
@@ -72,7 +71,7 @@ class CookerCalendar extends React.Component {
             )
         })
         return (<div className="calendar-cooker">
-            <h3>mon planning</h3>
+            <h4>mon planning</h4>
             <Table>
                 <thead>
                     <tr>
@@ -90,20 +89,23 @@ class CookerCalendar extends React.Component {
                     {ReservationsList}
                 </tbody>
             </Table>
-            <h3>organisé mes dates</h3>
-            <SingleDatePicker
-                onDateChange={this.handleDateChange}
-                focused={this.state.calendarFocused}
-                onFocusChange={e => this.setState({ calendarFocused: !this.state.calendarFocused })}
-                keepOpenOnDateSelect={true}
-                isDayHighlighted={d1 => this.state.dates.some(d2 => d1.isSame(d2, 'day'))}
-            />
+            <h4>organisé mes dates</h4>
+            <div className="calendar">
+                <SingleDatePicker
+                    onDateChange={this.handleDateChange}
+                    focused={this.state.calendarFocused}
+                    onFocusChange={e => this.setState({ calendarFocused: !this.state.calendarFocused })}
+                    keepOpenOnDateSelect={true}
+                    isDayHighlighted={d1 => this.state.dates.some(d2 => d1.isSame(d2, 'day'))}
+                />
 
-            <p className="text-center">
-                <button className="btn-zot" onClick={() => this.registerDate()}>
-                    Reserver ces dates
+                <p className="text-center">
+                    <button className="btn-zot" onClick={() => this.registerDate()}>
+                        Sauvegarder ces dates
                 </button>
-            </p>
+                </p>
+            </div>
+
 
         </div>);
     }
