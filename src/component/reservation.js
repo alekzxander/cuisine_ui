@@ -83,9 +83,6 @@ class Reservation extends React.Component {
                 guestInfo: 'Choisissez un nombre de convive'
             })
         }
-
-
-
     }
     render() {
         let availableDates = [];
@@ -132,9 +129,12 @@ class Reservation extends React.Component {
                     </div>
 
                     <p className="text-center">
-                        <button className="btn-zot" onClick={() => this.bookingMenu()} >
+                        {/* <button className="btn-zot" onClick={() => this.bookingMenu()} >
                             {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation
-                    </button>
+                    </button> */}
+                        <button className="btn-zot" >
+                            <a href="http://localhost:3001/test"> {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation</a>
+                        </button>
                     </p>
                 </div>
             </div>

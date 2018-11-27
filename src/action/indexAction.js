@@ -21,13 +21,32 @@ export const registerUser = (firstname, lastname, email, adresse, phone, passwor
             password
         };
         const resUser = await axios.post('http://localhost:3001/profil-user', user);
-        console.log(resUser)
-        if (resUser.status === 200) {
-            history.replace('/')
+        if (resUser.data.logUser) {
+            const userData = resUser.data.logUser;
+            const userPayload = {
+                id: userData.id,
+                firstname: userData.first_name,
+                lastname: userData.last_name,
+                adresse: userData.adresse,
+                phone: userData.phone,
+                token: resUser.data.token,
+                type: resUser.data.type,
+                reservations: userData.reservations,
+                picture: await getBase64(`http://localhost:3001/image/${'User'}/${userData.id}`)
+            }
+            console.log(userPayload)
             dispatch({
                 type: ActionType.REGISTER_USER,
-                payload: resUser.data
+                payload: userPayload
             });
+            history.replace('/')
+            dispatch(showSnack('registerUser', {
+                label: resUser.data.message,
+                timeout: 7000,
+                type: ' success',
+                button: { label: `D'accord !` }
+            }));
+        } else {
             dispatch(showSnack('registerUser', {
                 label: resUser.data.message,
                 timeout: 7000,
@@ -47,7 +66,7 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
             password
         };
         const resCooker = await axios.post('http://localhost:3001/profil-cooker', cooker);
-        try {
+        if (resCooker.data.logCooker) {
             const cooker = {
                 email: resCooker.data.logCooker.email,
                 firstname: resCooker.data.logCooker.first_name,
@@ -57,6 +76,7 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
                 type: resCooker.data.type,
                 presentation: resCooker.data.logCooker.presentation,
                 dates: resCooker.data.logCooker.date_bookings,
+                reservations: resCooker.data.logCooker.reservations,
                 picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resCooker.data.logCooker.id}`)
             };
             history.replace('/')
@@ -65,17 +85,17 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
                 payload: cooker
             });
             dispatch(showSnack('registerCooker', {
-                label: `Votre inscription à était enregistrer avec succes, vous pouvez désormais avoir accés à votre profil !`,
+                label: resCooker.data.message,
                 timeout: 7000,
                 button: { label: `D'accord !` }
             }));
-        } catch (err) {
-            dispatch({
-                type: ActionType.ERROR_LOGIN,
-                payload: resCooker.data
-            });
+        } else {
+            dispatch(showSnack('registerCooker', {
+                label: resCooker.data.message,
+                timeout: 7000,
+                button: { label: `D'accord !` }
+            }));
         }
-
     }
 }
 
@@ -97,6 +117,7 @@ export const login = (email, password, history) => {
                     type: resLoger.data.type,
                     presentation: resLoger.data.logCooker.presentation,
                     dates: resLoger.data.logCooker.date_bookings,
+                    reservations: resLoger.data.logCooker.reservations,
                     picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resLoger.data.logCooker.id}`)
                 };
                 dispatch(showSnack('loginCooker', {
@@ -344,7 +365,6 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
         }
         const cookerUpdated = await axios.put(`/profil-cooker/${id}`, formData, config);
         const cooker = cookerUpdated.data.cookerUpdated;
-        console.log(cooker)
         const update = {
             id: cooker.id,
             lastname: cooker.last_name,
@@ -353,6 +373,7 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
             token,
             type: cookerUpdated.data.type,
             dates: cooker.date_bookings,
+            reservations: cooker.reservations,
             picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${cooker.id}`)
         }
         dispatch({
@@ -486,7 +507,7 @@ export const dateBooking = (date, token) => {
             date
         }
         const resBook = await axios.post(`/date`, data, config);
-        console.log(resBook)
+        console.log(resBook.data.dates)
         if (resBook.status === 200) {
             dispatch({
                 type: ActionType.BOOKING_DATE,

@@ -31,6 +31,10 @@ body {
   .btn-zot:hover {
     text-decoration: none;
     color: white; }
+  .btn-zot:disabled {
+    background: white;
+    border: 1px solid #FE2B00;
+    color: #FE2B00; }
   .btn-zot a {
     color: white; }
     .btn-zot a:hover {
@@ -178,15 +182,18 @@ body {
   margin-top: 20px; }
 .calendar-cooker h4 {
   text-align: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  margin-bottom: 40px; }
 .calendar-cooker .calendar {
   display: flex; }
   .calendar-cooker .calendar button {
     margin: 0 0 0 20px; }
-.calendar-cooker .table th {
-  font-size: 14px; }
-.calendar-cooker .table td {
-  font-size: 10px; }
+.calendar-cooker .table {
+  margin-bottom: 40px; }
+  .calendar-cooker .table th {
+    font-size: 14px; }
+  .calendar-cooker .table td {
+    font-size: 10px; }
 
 .user-card-form {
   width: 100%;

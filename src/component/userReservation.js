@@ -71,7 +71,6 @@ class UserReservation extends React.Component {
                                 <h5>Dessert</h5>
                                 <p>{reservation.menu.dessert}</p>
                             </ModalBody>
-
                         </Modal>
                         <p>{!reservation.commented ? <button onClick={() => this.setState({ reservationId: reservation.id, menuId: reservation.menu.id, commentForm: true })} className="btn-zot">Ajouter un commentaire</button> : <button disabled className="btn-zot">Déjà commenté</button>}</p>
 
@@ -88,9 +87,9 @@ class UserReservation extends React.Component {
                 <button className="btn-zot" onClick={() => this.setState({ commentForm: false })}>Retour</button>
                 <form onSubmit={(e) => this.handleSubmit(e)} onChange={(e) => this.handleForm(e)}>
                     <div className="form-group">
-                        <label htmlFor="comment">Dites nous ce que vous avez pensé de cette prestation (max 130 caractères)</label>
-                        <textarea onChange={this.handleText} required name="comment" maxLength='130' id="comment" value={comment} className="form-control"></textarea>
-                        <p className="infoLength">{textLengthInfo} / 130</p>
+                        <label htmlFor="comment">Dites nous ce que vous avez pensé de cette prestation (max 100 caractères)</label>
+                        <textarea onChange={this.handleText} required name="comment" maxLength='100' id="comment" value={comment} className="form-control"></textarea>
+                        <p className="infoLength">{textLengthInfo} / 100</p>
                     </div>
                     <div className="form-group">
                         <label htmlFor="note">Note</label>

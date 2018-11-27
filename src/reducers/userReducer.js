@@ -8,6 +8,7 @@ export default function userReducer(state = initialState, action) {
         case ActionType.REGISTER_COOKER:
             return action.payload
         case ActionType.REGISTER_USER:
+            console.log(action.payload)
             return action.payload
         case ActionType.ERROR_LOGIN:
             return action.payload.message

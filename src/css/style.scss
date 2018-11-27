@@ -46,6 +46,11 @@ body {
         text-decoration: none;
         color: white;
       }
+      &:disabled{
+        background: white;
+        border: 1px solid $primary;
+        color : $primary;
+      }
     a {
       color : white;
       &:hover{
@@ -229,6 +234,7 @@ body {
     h4 {
       text-align: center;
       text-transform: uppercase;
+      margin-bottom: $middleMarge;
     }
     .calendar {
       display: flex;
@@ -237,6 +243,7 @@ body {
       }
     }
     .table {
+      margin-bottom: $middleMarge;
      th{
       font-size: 14px;
      } 

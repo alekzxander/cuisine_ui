@@ -55,8 +55,8 @@ class CookerCalendar extends React.Component {
         });
     }
     render() {
-        const reservations = this.props.cooker.dates.filter(date => date.reservations.length > 0).map(reservation => reservation.reservations[0]);
-        const ReservationsList = reservations.map((reservation) => {
+        // const reservations = this.props.cooker.dates.filter(date => date.reservations.length > 0).map(reservation => reservation.reservations[0]);
+        const ReservationsList = this.props.cooker.reservations.map((reservation) => {
             return (
                 <tr>
                     <th scope="row">{reservation.menu.title}</th>
@@ -69,7 +69,7 @@ class CookerCalendar extends React.Component {
                     <td>{reservation.menu.price * reservation.nb_guest} €</td>
                 </tr>
             )
-        })
+        });
         return (<div className="calendar-cooker">
             <h4>mon planning</h4>
             <Table>
