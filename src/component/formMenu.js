@@ -47,7 +47,16 @@ class FormMenu extends React.Component {
     }
     handleSubmit(event) {
         const { start, dish, dessert, title, price } = event.target;
-        this.props.createMenu(this.props.user.token, title.value, start.value, dish.value, this.state.draftCase, price.value, dessert.value, this.state.file, this.state.type);
+        this.props.createMenu(
+            this.props.user.token,
+            title.value,
+            start.value,
+            dish.value,
+            this.state.draftCase,
+            price.value,
+            dessert.value,
+            this.state.file,
+            this.state.type);
         event.preventDefault();
         this.props.handleMenu()
         return false

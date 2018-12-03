@@ -33,7 +33,8 @@ export const registerUser = (firstname, lastname, email, adresse, phone, passwor
                 type: resUser.data.type,
                 reservations: userData.reservations,
                 picture: await getBase64(`http://localhost:3001/image/${'User'}/${userData.id}`)
-            }
+            };
+            localStorage.setItem('login', userPayload);
             console.log(userPayload)
             dispatch({
                 type: ActionType.REGISTER_USER,
@@ -79,6 +80,7 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
                 reservations: resCooker.data.logCooker.reservations,
                 picture: await getBase64(`http://localhost:3001/image/${'Cooker'}/${resCooker.data.logCooker.id}`)
             };
+            localStorage.setItem('login', cooker);
             history.replace('/')
             dispatch({
                 type: ActionType.REGISTER_COOKER,
@@ -126,6 +128,7 @@ export const login = (email, password, history) => {
                     type: ' success',
                     button: { label: `D'accord !` }
                 }));
+                localStorage.setItem('login', JSON.stringify(cooker));
                 dispatch({
                     type: ActionType.REGISTER_COOKER,
                     payload: cooker
@@ -148,6 +151,7 @@ export const login = (email, password, history) => {
                     type: 'success',
                     button: { label: `D'accord !` }
                 }));
+                localStorage.setItem('login', JSON.stringify(user));
                 dispatch({
                     type: ActionType.REGISTER_USER,
                     payload: user
@@ -424,10 +428,8 @@ export const createMenu = (token, title, start, dish, draft, price, dessert, pic
         }
         const menu = await axios.post(`/menu`, formData, config);
         const getType = await axios.get(`/menu_type/${menu.data.newMenu.id}`);
-        console.log(getType, 'type of this menu')
         menu.data.newMenu.type_has_menus = getType.data.types;
         menu.data.newMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.newMenu.id}`);
-        console.log(menu.data.newMenu, 'after add type and picture')
         dispatch({
             type: ActionType.CREATE_MENU,
             payload: menu.data.newMenu
@@ -559,28 +561,31 @@ export const bookMenu = (token, dateId, menuId, nbGuest, history) => {
         const data = {
             nbGuest
         };
+        // window.location = 'https://api.sandbox.paypal.com/v1/payments/payment/PAY-7SS52084V3992533PLP6PZ3Y'
         const resReservation = await axios.post(`/reservation/${menuId}/${dateId}`, data, config);
-        const reservationData = resReservation.data.reservation;
-        const resDate = await axios.get(`/date/${reservationData.date_booking_id}`);
-        const resMenu = await axios.get(`/menu/${reservationData.menu_id}`);
-        const reservation = {
-            nb_guest: reservationData.nb_guest,
-            commented: false,
-            id: reservationData.id,
-            date_booking: resDate.data.booking,
-            menu: resMenu.data.menu
-        };
+        // const reservationData = resReservation.data.reservation;
+        // const resDate = await axios.get(`/date/${reservationData.date_booking_id}`);
+        // const resMenu = await axios.get(`/menu/${reservationData.menu_id}`);
+        // const reservation = {
+        //     nb_guest: reservationData.nb_guest,
+        //     commented: false,
+        //     id: reservationData.id,
+        //     date_booking: resDate.data.booking,
+        //     menu: resMenu.data.menu
+        // };
         if (resReservation.status === 200) {
-            history.replace('/');
-            dispatch(showSnack('bookMenu', {
-                label: `Vôtre réservation à bien était enregistré, vous pouvez voir les détails de cette prestation dans vôtre profil !`,
-                timeout: 7000,
-                button: { label: `Merci !` }
-            }));
-            dispatch({
-                type: ActionType.BOOKING_MENU,
-                payload: reservation
-            });
+            // history.replace('/');
+            // console.log(resReservation.data.pay)
+            window.location = resReservation.data.payment.links[1].href;
+            // dispatch(showSnack('bookMenu', {
+            //     label: `Vôtre réservation à bien était enregistré, vous pouvez voir les détails de cette prestation dans vôtre profil !`,
+            //     timeout: 7000,
+            //     button: { label: `Merci !` }
+            // }));
+            // dispatch({
+            //     type: ActionType.BOOKING_MENU,
+            //     payload: reservation
+            // });
         }
     }
 }

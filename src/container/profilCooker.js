@@ -105,7 +105,7 @@ class ProfilCooker extends React.Component {
                     <div className="profil-user container">
                         <div className="selector-control">
                             {contextMenu === 'display' ? <button style={{ height: '45px' }} className="btn-zot" onClick={() => this.handleChange('create')}>Ajouter un menu</button> : <button className="btn-zot" onClick={() => { this.handleChange('display'); this.props.menuByCooker(this.props.user.id) }}>Afficher les menus</button>}
-                            <p><button style={{ marginLeft: '20px' }} onClick={() => this.handleChange('calendar')} className="btn-zot">Calendrier</button></p>
+                            <p><button style={{ marginLeft: '20px' }} onClick={() => this.handleChange('calendar')} className="btn-zot">Mon planning</button></p>
                         </div>
 
                         <div className="row">

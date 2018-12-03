@@ -39,7 +39,6 @@ class CookerCalendar extends React.Component {
     }
     handleDateChange = (date) => {
         const isPresent = this.state.dates.find(d => date.isSame(d));
-
         const { dates } = this.state;
         this.setState({
             dates: dates
