@@ -21,8 +21,19 @@ class App extends Component {
   render() {
     return (
       <div>
+        <div className="loader-spinner">
+          <div class="lds-roller">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
         < Header />
-
         <Snackbar />
         <Switch >
           {/* <Route path="/payment" component={() => window.location = 'https://api.sandbox.paypal.com/v1/payments/payment/PAY-7SS52084V3992533PLP6PZ3Y'} /> */}

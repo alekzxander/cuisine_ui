@@ -64,15 +64,17 @@ class Reservation extends React.Component {
             })
         }
     }
+
     bookingMenu = () => {
         const { user, menu } = this.props;
         const { guest } = this.state;
+        const loader = document.querySelector('.loader-spinner');
         if (guest > 0) {
             if (user.token) {
                 this.props.available.forEach((d) => {
                     if (moment(new Date(d.date)).isSame(this.state.selected)) {
-                        console.log(d, menu)
-                        this.props.bookMenu(user.token, d.id, menu.id, guest, this.props.history)
+                        this.props.bookMenu(user.token, d.id, menu.id, guest, this.props.history);
+                        loader.setAttribute('style', 'display : block');
                     }
                 });
             } else {
@@ -132,9 +134,6 @@ class Reservation extends React.Component {
                         <button className="btn-zot" onClick={() => this.bookingMenu()} >
                             {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation
                     </button>
-                        {/* <button className="btn-zot" >
-                            <a href="http://localhost:3001/test"> {this.state.sendReservation ? <FontAwesomeIcon icon="lock" /> : ''}Reserver cette prestation</a>
-                        </button> */}
                     </p>
                 </div>
             </div>
