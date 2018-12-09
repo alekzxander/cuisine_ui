@@ -111,6 +111,7 @@ body {
   .menu-title {
     margin-top: $middleMarge;
   }
+
   .menu-card {
     margin-top: 150px;
     position: relative;
@@ -126,6 +127,9 @@ body {
       -webkit-box-shadow:  9px 10px 4px -8px #BFBFBF;
       -moz-box-shadow:  9px 10px 4px -8px #BFBFBF;
       box-shadow: 9px 10px 4px -8px #BFBFBF;
+      @media screen and (max-width: 700px) {
+        width: 320px;
+      }
     }
     .descriptive {
       padding: 20px;

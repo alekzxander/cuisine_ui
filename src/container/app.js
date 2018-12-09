@@ -22,7 +22,7 @@ class App extends Component {
     return (
       <div>
         <div className="loader-spinner">
-          <div class="lds-roller">
+          <div className="lds-roller">
             <div></div>
             <div></div>
             <div></div>

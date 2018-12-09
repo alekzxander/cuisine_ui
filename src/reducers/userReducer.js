@@ -1,8 +1,12 @@
 import ActionType from '../action/type';
-
+let initialState;
 const localLogin = localStorage.getItem('login');
+if (localLogin) {
+    initialState = JSON.parse(localLogin);
+} else {
+    initialState = { user: 'user not log' }
+}
 
-const initialState = JSON.parse(localLogin);
 // console.log(initialState)
 export default function userReducer(state = initialState, action) {
     switch (action.type) {

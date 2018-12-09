@@ -102,6 +102,9 @@ body {
     -webkit-box-shadow: 9px 10px 4px -8px #BFBFBF;
     -moz-box-shadow: 9px 10px 4px -8px #BFBFBF;
     box-shadow: 9px 10px 4px -8px #BFBFBF; }
+    @media screen and (max-width: 700px) {
+      .menu-card .img-menu {
+        width: 320px; } }
   .menu-card .descriptive {
     padding: 20px;
     z-index: 2;

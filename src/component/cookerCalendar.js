@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { dateBooking } from '../action/indexAction';
 import moment from 'moment';
 import { Table } from 'reactstrap';
-import reservation from './reservation'
 
 class CookerCalendar extends React.Component {
     constructor(props) {

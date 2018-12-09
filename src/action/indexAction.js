@@ -428,7 +428,9 @@ export const createMenu = (token, title, start, dish, draft, price, dessert, pic
         }
         const menu = await axios.post(`/menu`, formData, config);
         const getType = await axios.get(`/menu_type/${menu.data.newMenu.id}`);
+        console.log(getType)
         menu.data.newMenu.type_has_menus = getType.data.types;
+        console.log(menu)
         menu.data.newMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.newMenu.id}`);
         dispatch({
             type: ActionType.CREATE_MENU,

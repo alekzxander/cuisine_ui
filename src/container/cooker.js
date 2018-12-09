@@ -94,7 +94,6 @@ class Cooker extends React.Component {
                 return (
                     <div key={menu.id} className="col-lg-6">
                         <Menu
-
                             title={menu.title}
                             type={menu.type_has_menus}
                             price={menu.price}
@@ -108,7 +107,6 @@ class Cooker extends React.Component {
     }
 
     render() {
-        console.log(this.props.cooker)
         return (
             <div id="chef-page">
                 <div className="container-fluid">
