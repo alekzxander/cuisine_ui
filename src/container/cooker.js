@@ -18,9 +18,13 @@ class Cooker extends React.Component {
     displayProfil = () => {
         const { cooker } = this.props;
         if (cooker) {
-            const types = cooker.types.map((type) => {
-                return ` - ${type.name} `;
-            })
+            const types = cooker.types.map(type => type.name).sort();
+            const typesFilter = types.filter((type, i) => {
+                if (type !== types[i + 1]) {
+                    return type
+                }
+            });
+
             return (
                 <div className="card-cooker">
                     <img className="img-cooker" src={"data:image/jpg;base64," + cooker.picture} alt="cooker profil" />
@@ -28,7 +32,7 @@ class Cooker extends React.Component {
                     <p>À propos : </p>
                     <p>{cooker.presentation}</p>
                     <h6>Type de cuisine : </h6>
-                    <p className="type">{types}</p>
+                    <ul className="type">{typesFilter.map(type => <li key={type}>{type}</li>)}</ul>
                 </div>
             )
         }

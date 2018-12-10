@@ -20,7 +20,7 @@ export const registerUser = (firstname, lastname, email, adresse, phone, passwor
             adresse,
             password
         };
-        const resUser = await axios.post('http://localhost:3001/profil-user', user);
+        const resUser = await axios.post('http://localhost:3001/user', user);
         if (resUser.data.logUser) {
             const userData = resUser.data.logUser;
             const userPayload = {
@@ -66,7 +66,7 @@ export const registerCooker = (firstname, lastname, email, password, history) =>
             email,
             password
         };
-        const resCooker = await axios.post('http://localhost:3001/profil-cooker', cooker);
+        const resCooker = await axios.post('http://localhost:3001/cooker', cooker);
         if (resCooker.data.logCooker) {
             const cooker = {
                 email: resCooker.data.logCooker.email,
@@ -326,7 +326,7 @@ export const updateUserProfil = (id, token, firstname, lastname, image, adresse,
                 'content-type': 'multipart/form-data'
             }
         }
-        const userUpdated = await axios.put(`/profil-user/${id}`, formData, config);
+        const userUpdated = await axios.put(`/user/${id}`, formData, config);
         const user = userUpdated.data.userUpdated;
         const update = {
             id: user.id,
@@ -367,7 +367,7 @@ export const updateCookerProfil = (id, token, firstname, lastname, image, presen
                 'content-type': 'multipart/form-data'
             }
         }
-        const cookerUpdated = await axios.put(`/profil-cooker/${id}`, formData, config);
+        const cookerUpdated = await axios.put(`/cooker/${id}`, formData, config);
         const cooker = cookerUpdated.data.cookerUpdated;
         const update = {
             id: cooker.id,
@@ -428,9 +428,7 @@ export const createMenu = (token, title, start, dish, draft, price, dessert, pic
         }
         const menu = await axios.post(`/menu`, formData, config);
         const getType = await axios.get(`/menu_type/${menu.data.newMenu.id}`);
-        console.log(getType)
         menu.data.newMenu.type_has_menus = getType.data.types;
-        console.log(menu)
         menu.data.newMenu.picture = await getBase64(`http://localhost:3001/image/${'Menu'}/${menu.data.newMenu.id}`);
         dispatch({
             type: ActionType.CREATE_MENU,
@@ -552,8 +550,7 @@ export const addComment = (token, comment, note, menuId, reservationId) => {
         }
     }
 }
-export const bookMenu = (token, dateId, menuId, nbGuest, history) => {
-    console.log(token, dateId, menuId, nbGuest)
+export const bookMenu = (token, dateId, menuId, nbGuest) => {
     return async dispatch => {
         const config = {
             headers: {
@@ -563,31 +560,15 @@ export const bookMenu = (token, dateId, menuId, nbGuest, history) => {
         const data = {
             nbGuest
         };
-        // window.location = 'https://api.sandbox.paypal.com/v1/payments/payment/PAY-7SS52084V3992533PLP6PZ3Y'
         const resReservation = await axios.post(`/reservation/${menuId}/${dateId}`, data, config);
-        // const reservationData = resReservation.data.reservation;
-        // const resDate = await axios.get(`/date/${reservationData.date_booking_id}`);
-        // const resMenu = await axios.get(`/menu/${reservationData.menu_id}`);
-        // const reservation = {
-        //     nb_guest: reservationData.nb_guest,
-        //     commented: false,
-        //     id: reservationData.id,
-        //     date_booking: resDate.data.booking,
-        //     menu: resMenu.data.menu
-        // };
         if (resReservation.status === 200) {
-            // history.replace('/');
-            // console.log(resReservation.data.pay)
             window.location = resReservation.data.payment.links[1].href;
-            // dispatch(showSnack('bookMenu', {
-            //     label: `Vôtre réservation à bien était enregistré, vous pouvez voir les détails de cette prestation dans vôtre profil !`,
-            //     timeout: 7000,
-            //     button: { label: `Merci !` }
-            // }));
-            // dispatch({
-            //     type: ActionType.BOOKING_MENU,
-            //     payload: reservation
-            // });
+        } else {
+            dispatch(showSnack('errReservation', {
+                label: `Désolé une erreur s'est produite lors de la verification des informations.`,
+                timeout: 7000,
+                button: { label: `D'accord !` }
+            }));
         }
     }
 }

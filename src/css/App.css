@@ -105,6 +105,11 @@ body {
     @media screen and (max-width: 700px) {
       .menu-card .img-menu {
         width: 320px; } }
+    @media screen and (min-width: 1450px) {
+      .menu-card .img-menu {
+        height: 300px;
+        width: 530px;
+        top: -110%; } }
   .menu-card .descriptive {
     padding: 20px;
     z-index: 2;
