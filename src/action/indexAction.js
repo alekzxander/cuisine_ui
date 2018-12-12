@@ -509,14 +509,18 @@ export const dateBooking = (date, token) => {
             date
         }
         const resBook = await axios.post(`/date`, data, config);
-        console.log(resBook.data.dates)
         if (resBook.status === 200) {
             dispatch({
                 type: ActionType.BOOKING_DATE,
                 payload: resBook.data.dates
             })
         } else {
-            console.log('error booking date')
+            dispatch(showSnack('errDate', {
+                label: `Une erreur est survenue. Vos dates n'ont pas pu être enregistré.`,
+                timeout: 7000,
+                type: 'error',
+                button: { label: `D'accord !` }
+            }));
         }
 
     }
@@ -558,9 +562,11 @@ export const bookMenu = (token, dateId, menuId, nbGuest) => {
             }
         };
         const data = {
-            nbGuest
+            nbGuest,
+            menuId,
+            dateId
         };
-        const resReservation = await axios.post(`/reservation/${menuId}/${dateId}`, data, config);
+        const resReservation = await axios.post(`/reservation`, data, config);
         if (resReservation.status === 200) {
             window.location = resReservation.data.payment.links[1].href;
         } else {
