@@ -196,6 +196,9 @@ body {
   display: flex; }
   .calendar-cooker .calendar button {
     margin: 0 0 0 20px; }
+  .calendar-cooker .calendar .date-info {
+    color: red;
+    margin-left: 40px; }
 .calendar-cooker .table {
   margin-bottom: 40px; }
   .calendar-cooker .table th {

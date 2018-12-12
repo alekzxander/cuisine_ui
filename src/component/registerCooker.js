@@ -34,7 +34,6 @@ const renderField = ({
     meta: { touched, error, warning }
   }) => (
         <div>
-            {/* <label >{label}</label> */}
             <div>
                 <input {...input} className="form-control" placeholder={label} type={type} required />
                 {touched &&

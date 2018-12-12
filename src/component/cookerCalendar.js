@@ -14,7 +14,8 @@ class CookerCalendar extends React.Component {
             selected: [],
             dates: [],
             focused: '',
-            datesBooking: []
+            datesBooking: [],
+            infoDate: ''
         }
 
     }
@@ -38,19 +39,32 @@ class CookerCalendar extends React.Component {
     }
     handleDateChange = (date) => {
         const isPresent = this.state.dates.find(d => date.isSame(d));
+        const isBook = this.state.datesBooking.find(d => date.isSame(d));
         const { dates } = this.state;
-        this.setState({
-            dates: dates
-                .filter(d => isPresent ? !date.isSame(d) : true)
-                .concat(isPresent ? [] : [date])
-                .sort((d1, d2) => {
-                    if (d1) {
+        if (isBook) {
+            this.setState({
+                infoDate: 'Attention cet date est déjà réservé pour une de vos prestations'
+            });
+            setTimeout(() => {
+                this.setState({
+                    infoDate: ''
+                });
+            }, 2000)
+        } else {
+            this.setState({
+                dates: dates
+                    .filter(d => isPresent ? !date.isSame(d) : true)
+                    .concat(isPresent ? [] : [date])
+                    .sort((d1, d2) => {
+                        if (d1) {
 
-                        return d1.isBefore(d2) ? -1 : 1
-                    }
-                    return '';
-                })
-        });
+                            return d1.isBefore(d2) ? -1 : 1
+                        }
+                        return '';
+                    })
+            });
+        }
+
     }
     render() {
         // const reservations = this.props.cooker.dates.filter(date => date.reservations.length > 0).map(reservation => reservation.reservations[0]);
@@ -99,9 +113,10 @@ class CookerCalendar extends React.Component {
 
                 <p className="text-center">
                     <button className="btn-zot" onClick={() => this.registerDate()}>
-                        Sauvegarder ces dates
+                        Sauvegarder
                 </button>
                 </p>
+                <p className="date-info">{this.state.infoDate}</p>
             </div>
 
 
