@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ActionType from './type';
 import { showSnack } from 'react-redux-snackbar';
+import reservation from '../component/reservation'
 
 function getBase64(url) {
     return axios
@@ -534,10 +535,11 @@ export const addComment = (token, comment, note, menuId, reservationId) => {
         }
         const data = {
             comment,
-            note
+            note,
+            menuId,
+            reservationId
         };
-        const resComment = await axios.post(`/comment/${menuId}/${reservationId}`, data, config);
-        console.log(resComment)
+        const resComment = await axios.post(`/comments`, data, config);
         if (resComment.status === 200) {
             dispatch({
                 type: ActionType.ADD_COMMENT,

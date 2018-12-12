@@ -36,7 +36,6 @@ class App extends Component {
         < Header />
         <Snackbar />
         <Switch >
-          {/* <Route path="/payment" component={() => window.location = 'https://api.sandbox.paypal.com/v1/payments/payment/PAY-7SS52084V3992533PLP6PZ3Y'} /> */}
           <Route path="/profil-cooker/:id" component={ProfilCooker} />
           <Route path="/profil-user" component={ProfilUser} />
           <Route path="/menu/:id" component={MenuSelected} />
